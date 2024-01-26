@@ -1,8 +1,8 @@
 ' - Conmutator ---------------------------------------------
-' https://tinyurl.com/mr3ez7t5 
+' http://tinyurl.com/48st9vp6 
 
 ' Declare the GetSlot3 function
-DECLARE FUNCTION GetSlot3() AS UByte
+Declare FUNCTION GetSlot3() AS UByte
 
 DIM n AS UByte
 
