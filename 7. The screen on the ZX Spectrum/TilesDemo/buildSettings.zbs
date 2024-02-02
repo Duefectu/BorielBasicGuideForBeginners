@@ -1,0 +1,18 @@
+{
+  "MainFile": "Main.bas",
+  "OptimizationLevel": 3,
+  "Origin": null,
+  "ArrayBase": null,
+  "StringBase": null,
+  "SinclairMode": false,
+  "HeapSize": null,
+  "StrictBool": false,
+  "EnableBreak": false,
+  "Explicit": false,
+  "Defines": null,
+  "IgnoreCase": false,
+  "Strict": false,
+  "Headerless": false,
+  "NextMode": false,
+  "NextCmd": null
+}
