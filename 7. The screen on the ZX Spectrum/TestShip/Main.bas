@@ -1,5 +1,5 @@
 ' - TestShip ----------------------------------------------
-' https://tinyurl.com/yj2eauaa
+' http://tinyurl.com/mryh96d3
 
 ' Include the file with the sprite definitions
 #INCLUDE "Ship.gdu.bas"
@@ -14,8 +14,8 @@ INK 7
 BRIGHT 0
 CLS
 
-' Adjust the address of the GDUs
-POKE UInteger 23675, @ShipGDUs
+' Adjust the address of the UDGs
+POKE UInteger 23675, @Ship
 ' Print the ship
 PRINT AT 10,12;"\A\B\C";
 

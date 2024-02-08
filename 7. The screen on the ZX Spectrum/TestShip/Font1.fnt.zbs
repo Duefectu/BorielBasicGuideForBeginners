@@ -1,9 +1,12 @@
 {
   "ExportType": 4,
+  "ExportDataType": 0,
   "AutoExport": true,
-  "ExportFilePath": "C:\\spectrum\\TestNave\\Fuente1.fnt.bas",
-  "LabelName": "Fuente1",
+  "ExportFilePath": "C:\\spectrum\\TestShip\\Font1.fnt.bas",
+  "LabelName": "Font1",
   "ZXFileName": "Fuente1",
   "ZXAddress": 49152,
-  "ArrayBase": 0
+  "ArrayBase": 0,
+  "IncludeSize": false,
+  "IncludeAttr": false
 }

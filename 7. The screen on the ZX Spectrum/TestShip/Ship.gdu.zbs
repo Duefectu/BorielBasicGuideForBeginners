@@ -2,7 +2,7 @@
   "ExportType": 4,
   "ExportDataType": 0,
   "AutoExport": true,
-  "ExportFilePath": "C:\\spectrum\\TestNave\\Ship.gdu.bas",
+  "ExportFilePath": "C:\\spectrum\\TestShip\\Ship.gdu.bas",
   "LabelName": "Ship",
   "ZXFileName": "Nave",
   "ZXAddress": 49152,
