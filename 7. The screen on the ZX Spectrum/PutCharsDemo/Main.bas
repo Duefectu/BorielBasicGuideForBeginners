@@ -1,5 +1,5 @@
 ' - PutCharsDemo ------------------------------------------
-' https://tinyurl.com/bp59xy5d
+' http://tinyurl.com/2x45u65y
 
 Main()
 STOP
@@ -12,101 +12,100 @@ STOP
 
 
 ' - Variables ---------------------------------------------
-' Orientación de Ingrid (hacia donde mira) 1=derecha, 0=Izq
-DIM orientacion AS UByte = 1
-' Frame de la animación
+' Ingrid's orientation (1=right, 0=left)
+DIM orientation AS UByte = 1
+' Animation frame
 DIM frame AS UByte = 0
-' subFrame nos ayuda a ralentizar la animación
+' Sub-frame to slow down the animation
 DIM subFrame AS UByte = 0
-' Posición del sprite
+' Sprite position
 DIM x, y AS UByte
-' Indicador de movimiento, 1=camina, 0=parado
-DIM caminando AS UByte
+' Movement indicator, 1=walking, 0=standing
+DIM walking AS UByte
 
-
-' - Subrutina principal -----------------------------------
+' - Main subroutine ---------------------------------------
 SUB Main() 
-    ' Almacenaremos la tecla pulsada en "k"
+    ' Store the pressed key in "k"
     DIM k AS String 
     
-    ' Inicializamos las variables que controlan el sprite
+    ' Initialize the variables controlling the sprite
     x = 14
     y = 10
-    orientacion = 1
-    caminando = 0
+    orientation = 1
+    walking = 0
     frame = 0
     subFrame = 0
     
-    ' Bucle infinito
+    ' Infinite loop
     DO
-        ' Esperamos el rayo
+        ' Wait for the retrace
         waitretrace
         
-        ' Miramos si está parado o se mueve
-        IF caminando = 0 THEN
-            ' Esta parado, imprimimos según la orientación
-            IF orientacion = 1 THEN
-                ' Está mirando a la derecha
-                putChars(x,y,2,2,@Ingrid_Stand_right(frame,0))
-            ELSE
-                ' Mira a la izquierda
-                putChars(x,y,2,2,@Ingrid_Stand_left(frame,0))
-            END IF
-            ' Incrementamos el subFrame
-            subFrame = subFrame + 1
-            IF subFrame >= 10 THEN
-                ' Si subFrame es 10, incrementamos frame
-                frame = frame + 1
-                IF frame = 2 THEN
-                    ' Si nos pasamos de frame, volvemos al 0
-                    frame = 0
-                END IF
-                subFrame = 0
-            END IF       
+        ' Check if it's standing still or moving
+        IF walking = 0 THEN
+           ' It's standing still, print according to orientation
+           IF orientation = 1 THEN
+             ' Facing right
+             putChars(x,y,2,2,@Ingrid_Stand_right(frame,0))
+           ELSE
+             ' Facing left
+             putChars(x,y,2,2,@Ingrid_Stand_left(frame,0))
+           END IF
+           ' Increment the sub-frame
+           subFrame = subFrame + 1
+           IF subFrame >= 10 THEN
+              ' If sub-frame is 10, increment frame
+              frame = frame + 1
+              IF frame = 2 THEN
+                  ' If we exceed the frame, reset to 0
+                  frame = 0
+              END IF
+              subFrame = 0
+           END IF       
         ELSE            
-            ' Está caminando, imprimimos según la orientación
-            IF orientacion = 1 THEN
-                ' Está caminando hacia la derecha
-                ' Borramos la columna de la izquierda
-                putChars(x,y,1,2,@Ingrid_Blanco(0))
-                ' Si no ha llegado al borde, incrementamos x
-                IF x < 30 THEN
-                    x = x + 1
-                END IF
-                ' Imprimimos el sprite
-                putChars(x,y,2,2,@Ingrid_Walk_right(frame,0))                
-            ELSE
-                ' Está caminando hacia la izquierda
-                ' Borramos la columna de la izquierda
-                putChars(x+1,y,1,2,@Ingrid_Blanco(0))
-                ' Si no ha llegado al borde, decrementamos x
-                IF x > 0 THEN
-                    x = x - 1
-                END IF
-                ' Imprimimos el sprite
-                putChars(x,y,2,2,@Ingrid_Walk_left(frame,0))
-            END IF
-            ' Incrementamos el frame, aquí no hay subFrame
-            frame = frame + 1
-            IF frame = 4 THEN
-                frame = 0
-                caminando = 0
-            END IF
+          ' It's walking, print according to orientation
+          IF orientation = 1 THEN
+              ' Walking to the right
+              ' Clear the left column
+              putChars(x,y,1,2,@Ingrid_Blank(0))
+              ' If it hasn't reached the edge, increment x
+              IF x < 30 THEN
+                  x = x + 1
+              END IF
+              ' Print the sprite
+              putChars(x,y,2,2,@Ingrid_Walk_right(frame,0))                
+          ELSE
+              ' Walking to the left
+              ' Clear the left column
+              putChars(x+1,y,1,2,@Ingrid_Blank(0))
+              ' If it hasn't reached the edge, decrement x
+              IF x > 0 THEN
+                  x = x - 1
+              END IF
+              ' Print the sprite
+              putChars(x,y,2,2,@Ingrid_Walk_left(frame,0))
+          END IF
+          ' Increment the frame, no sub-frame here
+          frame = frame + 1
+          IF frame = 4 THEN
+              frame = 0
+              walking = 0
+          END IF
         END IF
         
-        ' Leemos el teclado
+        ' Read the keyboard
         k = INKEY$
-        ' Si se ha pulsado la tecla o
+        ' If the "o" key is pressed
         IF k = "o" THEN
-            ' Nos orientamos hacia la izquierda
-            orientacion = 0
-            ' Caminamos
-            caminando = 1
+            ' Turn left
+            orientation = 0
+            ' Walk
+            walking = 1
         ELSEIF k = "p" THEN
-            ' Nos orientamos hacia la derecha
-            orientacion = 1
-            ' Caminamos
-            caminando = 1
+            ' Turn right
+            orientation = 1
+            ' Walk
+            walking = 1
         END IF
     LOOP
 END SUB
