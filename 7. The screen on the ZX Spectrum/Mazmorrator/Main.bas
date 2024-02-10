@@ -1,29 +1,29 @@
 ' - Mazmorrator -------------------------------------------
-' https://tinyurl.com/thr5wkte
+' http://tinyurl.com/mwnyuur
 
 Main()
 STOP
 
 
 ' - Defines -----------------------------------------------
-#DEFINE PANTALLAS_MAX 1
+#DEFINE SCREENS_MAX 1
 
 
-'- Variables globales -------------------------------------
-' Pantalla actual
-DIM pantalla AS UByte
-' Tiempo restante y vidas que nos quedan
-DIM tiempo, vidas AS UByte
-' Puntos de la partida
-DIM puntos AS ULong
-' Coordenadas del sprite
+'- Global Variables ----------------------------------------
+' Current screen
+DIM screen AS UByte
+' Remaining time and remaining lives
+DIM time, lives AS UByte
+' Game points
+DIM score AS ULong
+' Sprite coordinates
 DIM x, y AS UByte
-' Frame del sprite y contador alternativo
+' Sprite frame and alternate counter
 DIM frame, subFrame AS UByte
-' Orientación: 0=arriba, 1=derecha, 2=abajo, 3=izquierda
-DIM orientacion AS UByte
-' 1 si está caminando o 0 si está parado
-DIM caminando AS UByte
+' Orientation: 0=up, 1=right, 2=down, 3=left
+DIM orientation AS UByte
+' 1 if walking, 0 if standing
+DIM walking AS UByte
 
 
 ' - Includes ----------------------------------------------
@@ -31,29 +31,28 @@ DIM caminando AS UByte
 #INCLUDE <retrace.bas>
 #INCLUDE "Ingrid.spr.bas"
 #INCLUDE "Tiles.spr.bas"
-#INCLUDE "Mapas.bas"
-#INCLUDE "Mapeado.bas"
-#INCLUDE "Juego.bas"
+#INCLUDE "Maps.bas"
+#INCLUDE "Mapping.bas"
+#INCLUDE "Game.bas"
 
 
 ' - Main --------------------------------------------------
 SUB Main()
-    ' Inicializa el sistema
-    Inicializar()
+    ' Initialize the system
+    Initialize()
 
-    ' TODO: Menú del juego
+    ' TODO: Game menu
     
-    ' Pone en marcha el juego    
-    Juego()
+    ' Start the game    
+    Game()
 END SUB
 
 
-' - Inicializa el sistema ---------------------------------
-SUB Inicializar()
+' - Initialize the system ---------------------------------
+SUB Initialize()
     BORDER 0
     PAPER 0
     INK 7
     BRIGHT 0
     CLS
 END SUB
-

@@ -1,7 +1,7 @@
 [
   {
     "Id": 0,
-    "Name": "Castillo",
+    "Name": "Castle",
     "GraphicMode": 1,
     "Width": 16,
     "Height": 16,
@@ -271,6 +271,36 @@
           0,
           0,
           0
+        ],
+        "Attributes": [
+          {
+            "Ink": 7,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 7
+          },
+          {
+            "Ink": 7,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 7
+          },
+          {
+            "Ink": 7,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 7
+          },
+          {
+            "Ink": 7,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 7
+          }
         ]
       },
       {
@@ -535,6 +565,36 @@
           0,
           0,
           0
+        ],
+        "Attributes": [
+          {
+            "Ink": 0,
+            "Paper": 6,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 48
+          },
+          {
+            "Ink": 0,
+            "Paper": 6,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 48
+          },
+          {
+            "Ink": 0,
+            "Paper": 6,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 48
+          },
+          {
+            "Ink": 0,
+            "Paper": 6,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 48
+          }
         ]
       },
       {
@@ -799,6 +859,36 @@
           1,
           0,
           0
+        ],
+        "Attributes": [
+          {
+            "Ink": 2,
+            "Paper": 6,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 50
+          },
+          {
+            "Ink": 2,
+            "Paper": 6,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 50
+          },
+          {
+            "Ink": 2,
+            "Paper": 6,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 50
+          },
+          {
+            "Ink": 2,
+            "Paper": 6,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 50
+          }
         ]
       },
       {
@@ -1063,6 +1153,36 @@
           1,
           0,
           0
+        ],
+        "Attributes": [
+          {
+            "Ink": 4,
+            "Paper": 6,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 52
+          },
+          {
+            "Ink": 4,
+            "Paper": 6,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 52
+          },
+          {
+            "Ink": 4,
+            "Paper": 6,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 52
+          },
+          {
+            "Ink": 4,
+            "Paper": 6,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 52
+          }
         ]
       },
       {
@@ -1327,6 +1447,36 @@
           0,
           0,
           0
+        ],
+        "Attributes": [
+          {
+            "Ink": 2,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 2
+          },
+          {
+            "Ink": 2,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 2
+          },
+          {
+            "Ink": 5,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 5
+          },
+          {
+            "Ink": 5,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 5
+          }
         ]
       },
       {
@@ -1591,6 +1741,36 @@
           0,
           0,
           0
+        ],
+        "Attributes": [
+          {
+            "Ink": 4,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 4
+          },
+          {
+            "Ink": 4,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 4
+          },
+          {
+            "Ink": 5,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 5
+          },
+          {
+            "Ink": 5,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 5
+          }
         ]
       },
       {
@@ -1855,6 +2035,36 @@
           0,
           0,
           0
+        ],
+        "Attributes": [
+          {
+            "Ink": 1,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 1
+          },
+          {
+            "Ink": 1,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 1
+          },
+          {
+            "Ink": 1,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 1
+          },
+          {
+            "Ink": 1,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 1
+          }
         ]
       },
       {
@@ -2119,6 +2329,36 @@
           0,
           0,
           0
+        ],
+        "Attributes": [
+          {
+            "Ink": 1,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 1
+          },
+          {
+            "Ink": 1,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 1
+          },
+          {
+            "Ink": 1,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 1
+          },
+          {
+            "Ink": 1,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 1
+          }
         ]
       },
       {
@@ -2383,6 +2623,36 @@
           0,
           0,
           0
+        ],
+        "Attributes": [
+          {
+            "Ink": 3,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 3
+          },
+          {
+            "Ink": 3,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 3
+          },
+          {
+            "Ink": 3,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 3
+          },
+          {
+            "Ink": 3,
+            "Paper": 0,
+            "Bright": false,
+            "Flash": false,
+            "Attribute": 3
+          }
         ]
       }
     ],

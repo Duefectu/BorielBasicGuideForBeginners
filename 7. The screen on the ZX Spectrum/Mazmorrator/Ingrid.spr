@@ -3285,7 +3285,7 @@
   },
   {
     "Id": 4,
-    "Name": "Blanco vertical",
+    "Name": "Blank vertical",
     "GraphicMode": 0,
     "Width": 8,
     "Height": 16,
@@ -3561,7 +3561,7 @@
   },
   {
     "Id": 5,
-    "Name": "Blanco horizontal",
+    "Name": "Blank horizontal",
     "GraphicMode": 0,
     "Width": 16,
     "Height": 8,
