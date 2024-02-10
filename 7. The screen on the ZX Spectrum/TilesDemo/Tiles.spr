@@ -1,13 +1,13 @@
 [
   {
     "Id": 0,
-    "Name": "Castillo",
+    "Name": "Castle",
     "GraphicMode": 1,
     "Width": 16,
     "Height": 16,
     "Masked": false,
     "Frames": 9,
-    "CurrentFrame": 1,
+    "CurrentFrame": 0,
     "Patterns": [
       {
         "Id": 0,
