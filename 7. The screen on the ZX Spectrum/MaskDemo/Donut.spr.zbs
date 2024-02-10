@@ -1,8 +1,9 @@
 {
   "ExportType": 6,
+  "ExportDataType": 0,
   "AutoExport": true,
-  "ExportFilePath": "C:\\spectrum\\MascarasDemo\\Rosquilla.spr.bas",
-  "LabelName": "Rosquilla_",
+  "ExportFilePath": "C:\\spectrum\\MaskDemo\\Donut.spr.bas",
+  "LabelName": "Donut_",
   "ZXFileName": "",
   "ZXAddress": 0,
   "ArrayBase": 0,

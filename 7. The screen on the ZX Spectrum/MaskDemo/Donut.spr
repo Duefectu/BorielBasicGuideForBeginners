@@ -586,7 +586,7 @@
   },
   {
     "Id": 1,
-    "Name": "Fondo",
+    "Name": "Background",
     "GraphicMode": 0,
     "Width": 16,
     "Height": 16,
