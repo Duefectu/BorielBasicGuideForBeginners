@@ -1,8 +1,9 @@
 {
   "ExportType": 4,
+  "ExportDataType": 0,
   "AutoExport": true,
-  "ExportFilePath": "C:\\spectrum\\DBAdventure\\Papel.udg.bas",
-  "LabelName": "Papel",
+  "ExportFilePath": "C:\\spectrum\\DBAdventure\\Papyrus.udg.bas",
+  "LabelName": "Papyrus",
   "ZXFileName": "Papel",
   "ZXAddress": 49152,
   "ArrayBase": 0,

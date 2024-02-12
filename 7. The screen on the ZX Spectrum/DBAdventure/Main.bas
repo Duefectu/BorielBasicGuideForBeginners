@@ -1,82 +1,83 @@
 ' - Double Buffer Adventure -------------------------------
-' https://tinyurl.com/yc39zj32
-' - Módulo principal --------------------------------------
+' http://tinyurl.com/bdemmmmr
+' - Main Module --------------------------------------------
 
 
-' Ejecutamos main
+' Run main
 Main()
 STOP
 
 
-' - Doble buffer ------------------------------------------
-' Si comentamos este define desactivamos el doble buffer
+' - Double Buffer ------------------------------------------
+' If we comment out this define, we deactivate the double 
+' buffer
 #DEFINE DOUBLE_BUFFER
 
 #IFDEF DOUBLE_BUFFER
-    ' Si usamos doble buffer, incluimos las librerías
+    ' If using double buffer, include libraries
     #INCLUDE <scrbuffer.bas>
     #INCLUDE <memcopy.bas>    
-    ' Incluimos la gestión del doble buffer
-    #INCLUDE "DobleBuffer.bas"
+    ' Include double buffer management
+    #INCLUDE "DoubleBuffer.bas"
 #ENDIF
 
 
-' - Variables Globales ------------------------------------
-' Posición del mapa con respecto al inicio de la pantalla
-DIM PosMapa AS Integer
-' Subposición del mapa, los tiles son de 16x16, así
-' controlamos cuando estamos en un paso intermedio
-DIM SubPosMapa AS UByte
-' Posición x e y del sprite de la guerrera
+' - Global Variables ---------------------------------------
+' Map position relative to the start of the screen
+DIM PosMap AS Integer
+' Map subposition, tiles are 16x16, thus
+' controlling when we are in an intermediate step
+DIM SubPosMap AS UByte
+' x and y position of the warrior sprite
 DIM PX, PY AS UByte
-' Frame del sprite de la guerrera
+' Warrior sprite frame
 DIM Frame AS UByte
-' SubFrame del sprite de la guerrera
+' Warrior sprite subframe
 DIM SubFrame AS UByte
-' Orientación de la guerrera: 1=Derecha, 0=Izquierda
-DIM Orientacion AS UByte
-' 1 si está caminando o 0 si está parada
-DIM Caminando AS UByte
+' Warrior orientation: 1=Right, 0=Left
+DIM Orientation AS UByte
+' 1 if walking or 0 if standing
+DIM Walking AS UByte
 
 
-' - Includes ----------------------------------------------
-' Librerías nativas de Boriel
+' - Includes ------------------------------------------------
+' Boriel's native libraries
 #INCLUDE <putchars.bas>
 #INCLUDE <scroll.bas>
 #INCLUDE <winscroll.bas>
 #INCLUDE <retrace.bas>
-' Graficos
+' Graphics
 #INCLUDE "Ingrid.spr.bas"
 #INCLUDE "Tiles.spr.bas"
-#INCLUDE "Clasico.fnt.bas"
-#INCLUDE "Papel.udg.bas"
-' Módulos de nuestro programa
-#INCLUDE "Mapa.bas"
-#INCLUDE "Mapeado.bas"
-#INCLUDE "Juego.bas"
+#INCLUDE "Classic.fnt.bas"
+#INCLUDE "Papyrus.udg.bas"
+' Modules of our program
+#INCLUDE "Map.bas"
+#INCLUDE "Mapping.bas"
+#INCLUDE "Game.bas"
 
 
-' - Subrutina principal -----------------------------------
+' - Main Subroutine ----------------------------------------
 SUB Main()
-    ' Inicializa el sistema
-    Inicializar()
-    ' Salta al juego directamente (no hay menú)
-    Juego()
+    ' Initialize the system
+    Initialize()
+    ' Jump straight into the game (no menu)
+    Game()
 END SUB
 
 
-' - Iniciliza el sistema ----------------------------------
-SUB Inicializar()
-    ' Establecemos los colores por defecto
+' - Initialize System --------------------------------------
+SUB Initialize()
+    ' Set default colors
     BORDER 7
     PAPER 7
     INK 0
     BRIGHT 0
-    ' Borramos la pantalla
+    ' Clear the screen
     CLS
     
-    ' Ajustamos la dirección de los GDUs
-    POKE (UInteger 23675,@Papel(0,0))
-    ' Ajustamos la dirección de la fuente (tipo de letra)
-    POKE (UInteger 23606,@Clasico(0,0)-256)
+    ' Adjust the UDGs' direction
+    POKE (UInteger 23675,@Papyrus(0,0))
+    ' Adjust the font (typeface) direction
+    POKE (UInteger 23606,@Classic(0,0)-256)
 END SUB

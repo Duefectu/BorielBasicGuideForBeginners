@@ -1,8 +1,9 @@
 {
   "ExportType": 4,
+  "ExportDataType": 0,
   "AutoExport": true,
-  "ExportFilePath": "C:\\spectrum\\DBAdventure\\Clasico.fnt.bas",
-  "LabelName": "Clasico",
+  "ExportFilePath": "C:\\spectrum\\DBAdventure\\Classic.fnt.bas",
+  "LabelName": "Classic",
   "ZXFileName": "Clasico",
   "ZXAddress": 49152,
   "ArrayBase": 0,

@@ -1,8 +1,7 @@
-' - Mapa del juego ----------------------------------------
+' - Map of the game ---------------------------------------
 
-' Define el mapa del fondo, de 30 tiles de ancho por 4 
-' de alto
-DIM Mapa(29,3) AS UByte => { _
+' Define the background map, 30 tiles wide by 4 tiles high
+DIM Map(29,3) AS UByte => { _
     {  0, 0, 0, 0 }, _
     {  0, 0,29,30 }, _
     {  0, 0,31,32 }, _
@@ -36,6 +35,6 @@ DIM Mapa(29,3) AS UByte => { _
 }
 
  
- ' Define la posición de los árboles del primer plano
- DIM Mapa_PrimerPlano(4) AS UByte => { 3, 6,14,25,27 }
+ ' Define the position of the foreground trees
+ DIM Map_Foreground(4) AS UByte => { 3, 6,14,25,27 }
  

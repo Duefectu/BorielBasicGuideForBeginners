@@ -1,7 +1,7 @@
 [
   {
     "Id": 1,
-    "Name": "Pueblo",
+    "Name": "Town",
     "GraphicMode": 1,
     "Width": 16,
     "Height": 16,
@@ -10387,7 +10387,7 @@
   },
   {
     "Id": 2,
-    "Name": "Nube1",
+    "Name": "Cloud1",
     "GraphicMode": 0,
     "Width": 24,
     "Height": 16,
@@ -10849,7 +10849,7 @@
   },
   {
     "Id": 3,
-    "Name": "Nube2",
+    "Name": "Cloud2",
     "GraphicMode": 0,
     "Width": 16,
     "Height": 8,
@@ -11027,7 +11027,7 @@
   },
   {
     "Id": 4,
-    "Name": "Sol",
+    "Name": "Sun",
     "GraphicMode": 0,
     "Width": 24,
     "Height": 24,
@@ -12792,7 +12792,7 @@
   },
   {
     "Id": 5,
-    "Name": "Arbol",
+    "Name": "Tree",
     "GraphicMode": 0,
     "Width": 32,
     "Height": 32,
