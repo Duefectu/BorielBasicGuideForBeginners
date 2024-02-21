@@ -1,5 +1,5 @@
 ' - Next Scroll -------------------------------------
-' https://tinyurl.com/mtw867rx
+' http://tinyurl.com/224u55ph
 
 Main()
 DO
@@ -11,92 +11,92 @@ LOOP
 #INCLUDE "nextlib8.bas"
 
 
-' - Subrutina principal -----------------------------------
+' - Main subroutine -----------------------------------
 SUB Main()
-    ' Inicializa el sistema
-    Inicializar()    
-    ' Demo de la Layer 2, 256x192
+    ' Initialize the system
+    Initialize()
+    ' Layer 2 demo, 256x192
     Layer2_256x192()
-    ' Demo de Sprites
-    DemoSprite()
+    ' Sprite demo
+    SpriteDemo()
 END SUB
 
 
-' - Inicializa el sistema ---------------------------------
-SUB Inicializar()
-    ' Borde amarillo, papel transparente y tinta amarilla
+' - Initialize the system ---------------------------------
+SUB Initialize()
+    ' Yellow border, transparent paper, and yellow ink
     BORDER 6
     PAPER 3
     BRIGHT 1
     INK 6
     CLS
     
-    ' Ponemos el reloj a 28Mhz
+    ' Set the clock to 28MHz
     NextReg($07,3)
-    ' Establecemos prioridades: Sprites -> ULA ->  Layer2
+    ' Set priorities: Sprites -> ULA -> Layer2
     NextReg($15,%00001001)
-    ' Color transparente para la ula (magenta con brillo)
+    ' Transparent color for the ULA (magenta with brightness)
     NextReg($14,231)
     
-    ' Imprimimos en la capa de la ULA
-    PRINT AT 0,0;"Esta es la capa ULA";
+    ' Print on the ULA layer
+    PRINT AT 0,0;"This is the ULA layer";
     
-    ' Cargamos los sprites
+    ' Load the sprites
     LoadSD("Ingrid.nspr",$c000,$4000,0)
-    ' Definimos los sprites
+    ' Define the sprites
     InitSprites(4,$c000)
         
-    ' Cargamos los tiles (16x16x20)
+    ' Load the tiles (16x16x20)
     LoadSD("Tiles.ntil",$c000,$1500,0) 
-    ' Cargamos la definición del mapa (16x12)
-    LoadSD("Mapa.nmap",$d500,192,0)
+    ' Load the map definition (16x12)
+    LoadSD("Map.nmap",$d500,192,0)
 END SUB
 
 
-' - Demo de la Layer 2, 256x192 a 256 colores -------------
+' - Layer 2 demo, 256x192 at 256 colors -------------
 SUB Layer2_256x192()
     DIM x, y as UInteger
     DIM t AS UByte
     
-    ' Mostramos la Layer 2
+    ' Show Layer 2
     ShowLayer2(1)
     
-    ' Imprimimos el nombre de la capa en la ULA
-    PRINT AT 23,0;"Layer 2: 256x192, 256 colores";
+    ' Print the layer name on the ULA
+    PRINT AT 23,0;"Layer 2: 256x192, 256 colors";
 
-    ' Rellenamos la pantalla con el color 2 (azul)
+    ' Fill the screen with color 2 (blue)
     CLS256(2)
-    ' Dibujaremos 16 tiles de ancho
+    ' Draw 16 tiles wide
     FOR x = 0 TO 15
-        ' Por 12 tiles de alto
+        ' By 12 tiles high
         FOR y = 0 TO 11
-            ' Leemos el vañpr del tile en el mapa
+            ' Read the tile value in the map
             t = PEEK($d500+(y*16)+x)
-            ' Dibujamos el tile "t" en "x","y"
+            ' Draw tile "t" at "x","y"
             DoTile(x,y,t)
         NEXT y
     NEXT x
 END SUB
 
 
-' - Demo de Sprites ---------------------------------------
-SUB DemoSprite()
+' - Sprite demo ---------------------------------------
+SUB SpriteDemo()
     DIM scrX AS UByte
     DIM paso, n AS UByte
     
-    ' Bucle infinito
+    ' Infinite loop
     DO
-        ' Hacemos 1 pausa para sincronizar con el barrido
+        ' Pause for synchronization with the beam
         waitretrace
-        ' Actualizamos la posición y frame del sprite 0
+        ' Update the position and frame of sprite 0
         UpdateSprite(120,120,0,paso,0,0)
         
-        ' Hacemos un scroll sobre la coordenada X            
+        ' Scroll on the X coordinate
         ScrollLayer(scrX,0)
-        ' Incrementamos la coordenada del scroll X en 2
+        ' Increase the X scroll coordinate by 2
         scrX = scrX + 2
             
-        ' El frame (paso) va de 0 a 3
+        ' The frame (paso) goes from 0 to 3
         IF paso = 3 THEN
             paso = 0
         ELSE

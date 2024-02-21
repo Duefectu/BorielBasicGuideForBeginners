@@ -1,19 +1,18 @@
 ' - Next Overlay Demo -------------------------------------
-' https://tinyurl.com/4fw926yr
+' http://tinyurl.com/bdzxfwmb
 
 Main()
 DO
 LOOP
 
 
-' - Definiciones ------------------------------------------
-' Los usaremos para identificar los subindices de la matriz
-' sprites
+' - Definitions ------------------------------------------
+' We'll use these to identify the subindices of the sprite matrix
 #DEFINE SPRITE_X 0
 #DEFINE SPRITE_Y 1
 #DEFINE SPRITE_ID 2
-#DEFINE SPRITE_ANCHO 3
-#DEFINE SPRITE_ALTO 4
+#DEFINE SPRITE_WIDTH 3
+#DEFINE SPRITE_HEIGHT 4
 #DEFINE SPRITE_VEL 5
 
 
@@ -22,152 +21,151 @@ LOOP
 #INCLUDE "nextlib8.bas"
 
 
-' - Subrutina principal -----------------------------------
+' - Main subroutine -----------------------------------
 SUB Main()
-    ' Inicializa el sistema
-    Inicializar()
-    ' Lanza la demo
+    ' Initialize the system
+    Initialize()
+    ' Launch the demo
     Demo()
 END SUB
 
 
-' - Inicializa el sistema ---------------------------------
-SUB Inicializar()
-    ' Borde amarillo, papel transparente y tinta amarilla
+' - Initialize the system ---------------------------------
+SUB Initialize()
+    ' Yellow border, transparent paper, and yellow ink
     BORDER 0
     PAPER 0
     INK 7
     CLS
     
-    ' Ponemos el reloj a 28Mhz
+    ' Set the clock to 28MHz
     NextReg($07,3)
-    ' Establecemos prioridades: Sprites -> Layer2 ->  ULA
+    ' Set priorities: Sprites -> Layer2 -> ULA
     NextReg($15,%00000001)
     
-    ' Cargamos la pantalla de la ULA
-    LoadSD("Amanecer.scr",$4000,$1b00,0)
+    ' Load the ULA screen
+    LoadSD("Dawn.scr",$4000,$1b00,0)
     
-    ' Cargamos la pantalla de la Layer 2
-    LoadBMPOld("Montanas.bmp")
+    ' Load the Layer 2 screen
+    LoadBMPOld("Mountains.bmp")
 
-    ' Mostramos la Layer 2
-    ' Es importante activar la Layer2 después de cargar la
-    ' pantalla para que se vea correctamente el bitmap
+    ' Show Layer 2
+    ' It's important to activate Layer 2 after loading the screen
+    ' to see the bitmap correctly
     ShowLayer2(1)
        
-    ' Cargamos los sprites
+    ' Load sprites
     LoadSD("Sprites.nspr",$c000,$4000,0)
-    ' Definimos los sprites
+    ' Define sprites
     InitSprites(36,$c000)
 END SUB
 
 
 ' - Demo --------------------------------------------------
 SUB Demo()
-    ' Puntero de scroll de la Layer 2
+    ' Layer 2 scroll pointer
     DIM xLayer2 AS UInteger = 0
-    ' Vamos a definir 20 sprites
+    ' We'll define 20 sprites
     DIM sprites(19,5) AS UInteger
-    ' Id de cada uno de los patterns de los sprites
+    ' ID of each of the sprite patterns
     DIM dirSprite(7) AS UByte => { 0,4,6,8,12,18,24,30 }
-    ' Define el tamaño de los 8 sprites que usaremos
-    DIM tamanos(7,1) AS UBYTE => { _
+    ' Define the size of the 8 sprites we'll use
+    DIM sizes(7,1) AS UBYTE => { _
         { 4, 1 }, { 2, 1 }, {2, 1}, {4, 1}, _
         { 2, 3 }, { 2, 3 }, {2, 3}, {2, 3} _
     }
-    ' Variables temnporales para la lógica 
-    DIM n, id, ancho, alto, nAncho, nAlto, y, spr AS UByte
+    ' Temporary variables for logic
+    DIM n, id, width, height, nWidth, nHeight, y, spr AS UByte
     DIM x, v AS UInteger
 
-    ' Inicializamos la semilla del RND
+    ' Initialize the RND seed
     RANDOMIZE 0
     
-    ' Creamos 5 Nubes
+    ' Create 5 Clouds
     FOR n = 0 TO 5
         sprites(n,SPRITE_X) = RND * 320
         sprites(n,SPRITE_Y) = (RND * 60) + 32
         id = RND * 4        
         sprites(n,SPRITE_ID) = dirSprite(id)
-        sprites(n,SPRITE_ANCHO) = tamanos(id,0)
-        sprites(n,SPRITE_ALTO) = tamanos(id,1)
+        sprites(n,SPRITE_WIDTH) = sizes(id,0)
+        sprites(n,SPRITE_HEIGHT) = sizes(id,1)
         sprites(n,SPRITE_VEL) = RND * 2
      NEXT n
-     ' Creamos 10 árboles lentos
+     ' Create 10 slow trees
      FOR n = 5 TO 15
         sprites(n,SPRITE_X) = RND * 320
         sprites(n,SPRITE_Y) = 135
         id = (RND * 4) + 4       
         sprites(n,SPRITE_ID) = dirSprite(id)
-        sprites(n,SPRITE_ANCHO) = tamanos(id,0)
-        sprites(n,SPRITE_ALTO) = tamanos(id,1)
+        sprites(n,SPRITE_WIDTH) = sizes(id,0)
+        sprites(n,SPRITE_HEIGHT) = sizes(id,1)
         sprites(n,SPRITE_VEL) = 3
      NEXT n 
-     ' Creamos 3 árboles más rápidos
+     ' Create 3 faster trees
      FOR n = 15 TO 18
         sprites(n,SPRITE_X) = RND * 320
         sprites(n,SPRITE_Y) = 145
         id = (RND * 4) + 4       
         sprites(n,SPRITE_ID) = dirSprite(id)
-        sprites(n,SPRITE_ANCHO) = tamanos(id,0)
-        sprites(n,SPRITE_ALTO) = tamanos(id,1)
+        sprites(n,SPRITE_WIDTH) = sizes(id,0)
+        sprites(n,SPRITE_HEIGHT) = sizes(id,1)
         sprites(n,SPRITE_VEL) = 4
      NEXT n 
-     ' Creamos 2 árboles aún más rápidos
+     ' Create 2 even faster trees
      FOR n = 18 TO 20
         sprites(n,SPRITE_X) = RND * 320
         sprites(n,SPRITE_Y) = 150
         id = (RND * 4) + 4       
         sprites(n,SPRITE_ID) = dirSprite(id)
-        sprites(n,SPRITE_ANCHO) = tamanos(id,0)
-        sprites(n,SPRITE_ALTO) = tamanos(id,1)
+        sprites(n,SPRITE_WIDTH) = sizes(id,0)
+        sprites(n,SPRITE_HEIGHT) = sizes(id,1)
         sprites(n,SPRITE_VEL) = 5
      NEXT n
     
-    ' Bucle infinito
+    ' Infinite loop
     DO
-        ' Sincronizamos con el barrido de pantalla
+        ' Synchronize with screen scan
         waitretrace
-        ' Scroll de la Layer 2
+        ' Layer 2 scroll
         ScrollLayer(xLayer2,0)
         xLayer2 = xLayer2 + 2
         
-        ' Empezamos a actualizar los 20 sprites
+        ' Begin updating the 20 sprites
         spr = 0
         FOR n = 0 TO 20
-            ' Copiamos los datos del sprite a variables
-            ' locales para acelerar el procesado
+            ' Copy sprite data to local variables
+            ' to speed up processing
             y = sprites(n,SPRITE_Y)
             id = sprites(n,SPRITE_ID)
-            ancho = sprites(n,SPRITE_ANCHO)-1
-            alto = sprites(n,SPRITE_ALTO)-1
-            ' Bucle de alto del sprite
-            FOR nAlto = 0 TO alto
-                ' Inicializamos la coordenada x
+            width = sprites(n,SPRITE_WIDTH)-1
+            height = sprites(n,SPRITE_HEIGHT)-1
+            ' Sprite height loop
+            FOR nHeight = 0 TO height
+                ' Initialize the x coordinate
                 x = sprites(n,SPRITE_X)
-                ' Bucle del ancho del sprite
-                FOR nAncho = 0 TO ancho
-                    ' Actualizamos la posición del sprite
+                ' Sprite width loop
+                FOR nWidth = 0 TO width
+                    ' Update sprite position
                     UpdateSprite(x,y,spr,id,0,0)
-                    ' Incrementamos el frame del frame
+                    ' Increment the frame
                     id = id + 1
-                    ' Incrementamos el id de del sprite
+                    ' Increment the sprite id
                     spr = spr + 1
-                    ' Incrementamos x en 16
+                    ' Increment x by 16
                     x = x + 16
-                NEXT nAncho
-                ' Incrementamos y en 16
+                NEXT nWidth
+                ' Increment y by 16
                 y = y + 16
-            NEXT nAlto 
+            NEXT nHeight 
             
-            ' Detectamos si el sprite se pierde por la
-            ' izquierda de la pantallá
+            ' Detect if the sprite is lost to the left of the screen
             v = sprites(n,SPRITE_VEL)
             x = sprites(n,SPRITE_X)        
             IF v > x THEN
-                ' Si se sale, lo colocamos a la derecha
+                ' If it's lost, place it to the right
                 sprites(n,SPRITE_X) = 320
             ELSE
-                ' Si no se sale, lo movemos a la izquierda
+                ' If not lost, move it to the left
                 sprites(n,SPRITE_X) = x - v
             END IF
         NEXT n
