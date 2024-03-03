@@ -1,4 +1,4 @@
-' - MascarasDemo ------------------------------------------
+' - MaskDemo ------------------------------------------
 ' http://tinyurl.com/yruv6pw9
 
 Main()
@@ -9,7 +9,7 @@ STOP
 #INCLUDE "Donut.spr.bas"
 
 
-' - Subrutina principal -----------------------------------
+' - Main Subroutine ---------------------------------------
 SUB Main()
     ' We will use these to draw the background
     DIM x, y AS UByte

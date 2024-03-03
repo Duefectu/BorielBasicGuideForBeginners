@@ -82,25 +82,25 @@ END SUB
 ' - Sprite demo ---------------------------------------
 SUB SpriteDemo()
     DIM scrX AS UByte
-    DIM paso, n AS UByte
+    DIM pattern, n AS UByte
     
     ' Infinite loop
     DO
         ' Pause for synchronization with the beam
         waitretrace
         ' Update the position and frame of sprite 0
-        UpdateSprite(120,120,0,paso,0,0)
+        UpdateSprite(120,120,0,pattern,0,0)
         
         ' Scroll on the X coordinate
         ScrollLayer(scrX,0)
         ' Increase the X scroll coordinate by 2
         scrX = scrX + 2
             
-        ' The frame (paso) goes from 0 to 3
-        IF paso = 3 THEN
-            paso = 0
+        ' The frame (pattern) goes from 0 to 3
+        IF pattern = 3 THEN
+            pattern = 0
         ELSE
-            paso = paso + 1
+            pattern = pattern + 1
         END IF
     LOOP
 END SUB

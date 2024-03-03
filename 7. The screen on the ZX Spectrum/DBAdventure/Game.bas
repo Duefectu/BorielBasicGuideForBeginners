@@ -29,7 +29,7 @@ SUB Game()
         paint(0,8,31,8,%00111000)
 #ENDIF
         
-        ' Print warrior sprite
+        ' Print heroine sprite
         IF Walking = 0 THEN
             ' Print sprite when standing still
             PrintSpriteStanding()
@@ -52,7 +52,7 @@ SUB InitializeGame()
     ' Internal loop counter variable
     DIM n AS UByte
     
-    ' Initial position and state of the warrior
+    ' Initial position and state of the heroine
     PX = 4
     PY = 14
     Frame = 0
@@ -145,7 +145,7 @@ SUB PrintSpriteMovement()
                 SubPosMap = 0
             END IF
         END IF
-        ' Print warrior mask with AND
+        ' Print heroine mask with AND
         putCharsOverMode(PX,PY,2,2,2,@Ingrid_Walk_right_Mask(Frame,0))
         ' Print Ingrid sprite with OR
         putCharsOverMode(PX,PY,2,2,3,@Ingrid_Walk_right(Frame,0))
@@ -179,9 +179,9 @@ SUB PrintSpriteMovement()
                 SubPosMap = 0
             END IF
         END IF
-        ' Print warrior mask with AND
+        ' Print Heroine mask with AND
         putCharsOverMode(PX,PY,2,2,2,@Ingrid_Walk_left_Mask(Frame,0))
-        ' Print Ingrid sprite with OR
+        ' Print Heroine sprite with OR
         putCharsOverMode(PX,PY,2,2,3,@Ingrid_Walk_left(Frame,0))
     END IF
     
@@ -210,7 +210,7 @@ SUB PrintSpriteMovement()
 END SUB
 
 
-' - Control warrior movement --------------------------------
+' - Control heroine movement --------------------------------
 SUB ControlMovement()
     ' Variable to store pressed key
     DIM k AS String

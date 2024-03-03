@@ -5,7 +5,7 @@
 
 ' - Space reserved for the double buffer -------------------
 ' Double buffer for pixels
-DobleBuffer_Pixels:
+DoubleBuffer_Pixels:
     ASM
         defs 6144   ; 6144 bytes for pixels
     END ASM
@@ -20,7 +20,7 @@ DoubleBuffer_Attributes:
 ' - Redirects printing to the buffer -----------------------
 SUB ActivateBuffer()
     ' Set the address of the pixel buffer
-    SetScreenBufferAddr(@DobleBuffer_Pixels)
+    SetScreenBufferAddr(@DoubleBuffer_Pixels)
     ' Set the address of the attribute buffer
     SetAttrBufferAddr(@DoubleBuffer_Attributes)
 END SUB
@@ -41,7 +41,7 @@ SUB BufferToScreen()
     waitretrace
     ' Copy from double buffer the first two thirds
     ' of the screen (the border is not touched)
-    MemCopy(@DobleBuffer_Pixels,$4000,4096)
+    MemCopy(@DoubleBuffer_Pixels,$4000,4096)
 END SUB
 
 #ENDIF

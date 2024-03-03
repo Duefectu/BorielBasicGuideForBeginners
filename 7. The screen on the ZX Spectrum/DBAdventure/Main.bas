@@ -7,7 +7,7 @@
 Main()
 STOP
 
-
+warr
 ' - Double Buffer ------------------------------------------
 ' If we comment out this define, we deactivate the double 
 ' buffer
@@ -28,13 +28,13 @@ DIM PosMap AS Integer
 ' Map subposition, tiles are 16x16, thus
 ' controlling when we are in an intermediate step
 DIM SubPosMap AS UByte
-' x and y position of the warrior sprite
+' x and y position of the heronine sprite
 DIM PX, PY AS UByte
-' Warrior sprite frame
+' Heroine sprite frame
 DIM Frame AS UByte
-' Warrior sprite subframe
+' Heroine sprite subframe
 DIM SubFrame AS UByte
-' Warrior orientation: 1=Right, 0=Left
+' Heroine orientation: 1=Right, 0=Left
 DIM Orientation AS UByte
 ' 1 if walking or 0 if standing
 DIM Walking AS UByte
