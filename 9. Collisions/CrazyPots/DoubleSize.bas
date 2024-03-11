@@ -7,10 +7,10 @@
 '   x (UByte): X coordinate in pixels
 '   y (UByte): Y coordinate in pixels
 '   dir (UInteger): Address of the character memory
-SUB DoubleSize8x8(x AS UBYTE, y AS UByte, dir2 AS UInteger)
+SUB DoubleSize8x8(x AS UBYTE, y AS UByte, dir AS UInteger)
     ' Local variables
     DIM xx, yy, nx, ny, b, a AS UByte
-DIM dir AS UInteger = dir2    
+
     ' In pixels, 0,0 is at the bottom left, so we
     ' invert the value of y
     yy = y + 14

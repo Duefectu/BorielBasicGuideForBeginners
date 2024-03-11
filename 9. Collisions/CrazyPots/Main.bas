@@ -1,5 +1,5 @@
 ' - Crazy Pots -------------------------------------------
-' https://tinyurl.com/46h93ab8
+' https://tinyurl.com/ynj4dvf5
 
 Main()
 STOP
