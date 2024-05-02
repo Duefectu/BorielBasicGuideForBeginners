@@ -102,7 +102,7 @@ end asm
 ' Path IY bug in emulators
 ' When run emulator without loading Next ROM, IY register was $0000, when
 ' the normal value must be $5c3a, the start of Sysvars.
-SUB PathIY()        
+SUB PatchIY()        
     ASM
         LD IY,$5c3a
     END ASM

@@ -1,149 +1,148 @@
 ' - KeysDemo ----------------------------------------------
-' https://tinyurl.com/2s3npcpf
+' https://tinyurl.com/3r3p6st6
 
 #INCLUDE <Keys.bas>
 
-' Declaramos dos funciones
+' Declare two functions
 DECLARE FUNCTION Menu AS UByte
-DECLARE FUNCTION LeerTecla AS UInteger
+DECLARE FUNCTION ReadKey AS UInteger
 
 
-' Guardaremos los códigos de las teclas en un array
-DIM Teclas(4) AS UInteger => _
+' Store the key codes in an array
+DIM Keys(4) AS UInteger => _
     { KEYO, KEYP, KEYQ, KEYA, KEYSPACE }
-' Y el nombre del comando para cada tecla en otro
-DIM TeclasS(4) AS String
-' Tipo de control, 1=Teclado, 2=KEMPSTON,
+' And the name of the command for each key in another
+DIM KeysS(4) AS String
+' Control type, 1=Keyboard, 2=KEMPSTON,
 '   3=SINCLAIR 1, 4=SINCLAIR 2, 5=CURSOR 
-DIM TipoControl AS UByte = 1
+DIM ControlType AS UByte = 1
 
-' Estos defines nos ayudan a no liarnos con los índices
-#DEFINE IZQUIERDA 0
-#DEFINE DERECHA 1
-#DEFINE ARRIBA 2
-#DEFINE ABAJO 3
-#DEFINE DISPARO 4
+' These defines help us avoid confusion with indices
+#DEFINE LEFT_KEY 0
+#DEFINE RIGHT_KEY 1
+#DEFINE UP_KEY 2
+#DEFINE DOWN_KEY 3
+#DEFINE SHOOT_KEY 4
 
-
-' Llamamos a la subrutina Main para empezar
+' Call the Main subroutine to start
 Main()
 
 
-' - Subrutina principal del programa ----------------------
+' - Main program subroutine ----------------------
 SUB Main()
-    DIM opcion AS UByte
+    DIM option AS UByte
     
-    ' Inicializamos el sistema
-    Inicializar()
+    ' Initialize the system
+    Initialize()
 
-    ' Bucle infinito
+    ' Infinite loop
     DO    
         CLS
-        ' Imprimimos el menú y recogemos la opción seleccionada
-        opcion = Menu()
+        ' Print the menu and collect the selected option
+        option = Menu()
         
-        IF opcion = 1 THEN
-            ' La opción 1 es para probar
-            Probar()
-        ELSE IF opcion = 2 THEN
-            ' La opción 2 es para redefinir
-            RedefinirTeclas()  
-            ' Si redefinimos pasamos a teclado
-            TipoControl = 1
-        ELSE IF opcion = 3 THEN
-            ' La opción 2 es teclado
-            TipoControl = 1
-        ELSE IF opcion = 4 THEN
-            ' La opción 4 es para KEMPSTON
-            TipoControl = 2
-        ELSE IF opcion = 5 THEN
-            ' La opción 5 es para SINCLAIR 1
-            TeclasSINCLAIR1()
-            TipoControl = 3
-        ELSE IF opcion = 6 THEN
-            ' La opción 6 es para SINCLAIR 2
-            TeclasSINCLAIR2()
-            TipoControl = 4
-        ELSE IF opcion = 7 THEN
-            ' La opción 7 es para CURSOR
-            TeclasCURSOR()
-            TipoControl = 5
+        IF option = 1 THEN
+            ' Option 1 is for testing
+            Test()
+        ELSE IF option = 2 THEN
+            ' Option 2 is for redefining
+            RedefineKeys()  
+            ' If redefining, switch to keyboard
+            ControlType = 1
+        ELSE IF option = 3 THEN
+            ' Option 2 is keyboard
+            ControlType = 1
+        ELSE IF option = 4 THEN
+            ' Option 4 is for KEMPSTON
+            ControlType = 2
+        ELSE IF option = 5 THEN
+            ' Option 5 is for SINCLAIR 1
+            Sinclair1Keys()
+            ControlType = 3
+        ELSE IF option = 6 THEN
+            ' Option 6 is for SINCLAIR 2
+            Sinclair2Keys()
+            ControlType = 4
+        ELSE IF option = 7 THEN
+            ' Option 7 is for CURSOR
+            CursorKeys()
+            ControlType = 5
         END IF
     LOOP
 END SUB
 
 
-' - Inicializa el sistema ---------------------------------
-SUB Inicializar()
-    ' Establecemos los colores por defecto
+' - Initialize the system ---------------------------------
+SUB Initialize()
+    ' Set default colors
     BORDER 0
     PAPER 0
     INK 6
     CLS
 
-    ' Definimos los textos de las teclas
-    TeclasS(IZQUIERDA) = "Izquierda"
-    TeclasS(DERECHA)   = " Derecha "
-    TeclasS(ARRIBA)    = " Arriba  "
-    TeclasS(ABAJO)     = "  Abajo  "
-    TeclasS(DISPARO)   = " Disparo "
+    ' Define key labels
+    KeysS(LEFT_KEY) = " Left  "
+    KeysS(RIGHT_KEY) = " Right "
+    KeysS(UP_KEY) = " Up    "
+    KeysS(DOWN_KEY) =  " Down  "
+    KeysS(SHOOT_KEY) = " Shoot "
 END SUB
 
 
-' - Muestra el menú principal y devuelve la opción seleccionada
-' Devuelve:
-'   UByte: Opción seleccionada: 1=Redefinir, 2=Probar
+' - Display the main menu and return the selected option
+' Returns:
+'   UByte: Selected option: 1=Redefine, 2=Test
 FUNCTION Menu() AS UByte    
     DIM a AS UByte
     
     CLS
-    ' Imprimimos las etiquetas
+    ' Print labels
     INK 5
-    PRINT AT  2,5;"    Menu principal"
-    PRINT AT 18,5;"Selecciona una opcion"
+    PRINT AT  2,5;"    Main Menu"
+    PRINT AT 18,9;"Select an option"
 
-    ' Imprimimos las opciones fijas
+    ' Print fixed options
     INK 6
-    PRINT AT 4,5;" 1. Probar"
-    PRINT AT 6,5;" 2. Redefinir teclas"
-    ' Si usamos teclado, marcamos la opción en verde
-    IF TipoControl = 1 THEN
+    PRINT AT 4,5;" 1. Test"
+    PRINT AT 6,5;" 2. Redefine keys"
+    ' If using keyboard, highlight the option in green
+    IF ControlType = 1 THEN
         INK 4
     END IF
-    PRINT AT 8,5;" 3. Teclado"
+    PRINT AT 8,5;" 3. Keyboard"
     INK 6
-    ' Si usamos KEMPSTON, marcamos la opción en verde
-    IF TipoControl = 2 THEN
+    ' If using KEMPSTON, highlight the option in green
+    IF ControlType = 2 THEN
         INK 4
     END IF
-    PRINT AT 10,5;" 4. Joystick KEMPSTON"
+    PRINT AT 10,5;" 4. KEMPSTON Joystick"
     INK 6
-    ' Si usamos SINCLAIR 1, marcamos la opción en verde
-    IF TipoControl = 3 THEN
+    ' If using SINCLAIR 1, highlight the option in green
+    IF ControlType = 3 THEN
         INK 4
     END IF
-    PRINT AT 12,5;" 5. Joystick SINCLAIR 1"
+    PRINT AT 12,5;" 5. SINCLAIR 1 Joystick"
     INK 6
-    ' Si usamos SINCLAIR 2, marcamos la opción en verde
-    IF TipoControl = 4 THEN
+    ' If using SINCLAIR 2, highlight the option in green
+    IF ControlType = 4 THEN
         INK 4
     END IF
-    PRINT AT 14,5;" 6. Joystick SINCLAIR 2"
+    PRINT AT 14,5;" 6. SINCLAIR 2 Joystick"
     INK 6
-    ' Si usamos CURSOR, marcamos la opción en verde
-    IF TipoControl = 5 THEN
+    ' If using CURSOR, highlight the option in green
+    IF ControlType = 5 THEN
         INK 4
     END IF
-    PRINT AT 16,5;" 7. Joystick CURSOR"
+    PRINT AT 16,5;" 7. CURSOR Joystick"
     INK 6
     
-    ' Damos vueltas hasta que se selecciona algo correcto
+    ' Loop until a correct option is selected
     DO
         IF INKEY$ <> "" THEN
-            ' Convertimos la tecla en un número
+            ' Convert the key into a number
             a = VAL(INKEY$)
             IF a <> 0 THEN
-                ' Si es un número, lo devolvemos
+                ' If it's a number, return it
                 RETURN a
             END IF
         END IF
@@ -151,135 +150,136 @@ FUNCTION Menu() AS UByte
 END FUNCTION
 
 
-' - Opción "Redefinir teclas" -----------------------------
-SUB RedefinirTeclas()
+' - Option "Redefine keys" -----------------------------
+SUB RedefineKeys()
     DIM n AS UByte
     DIM k AS UInteger
     
     CLS
-    ' Imprimimos la cabecera
+    ' Print the header
     INK 5
-    PRINT AT 10,5;"Pulsa una tecla para:";
+    PRINT AT 10,5;"Press a key to:";
     INK 6
     
-    ' Para cada una de las 5 teclas
+    ' For each of the 5 keys
     FOR n=0 TO 4
-        ' Imprimimos el nombre de la tecla
-        PRINT AT 14,10;TeclasS(n);
-        ' Leemos y guardamos el código de la tecla
-        Teclas(n) = LeerTecla()
+        ' Print the key name
+        PRINT AT 14,10;KeysS(n);
+        ' Read and store the key code
+        Keys(n) = ReadKey()
     NEXT n
 END SUB
 
 
-' - Devuelve el código de la tecla pulsada -----------------
-' Devuelve:
-'   UInteger: Código de la tecla pulsada
-FUNCTION LeerTecla() AS UInteger
-    ' Declaramos k con el valor 0 por defecto
+' - Return the code of the pressed key -----------------
+' Returns:
+'   UInteger: Code of the pressed key
+FUNCTION ReadKey() AS UInteger
+    ' Declare k with a default value of 0
     DIM k AS UInteger = 0
     
-    ' Esperamos hasta que no se pulse nada
+    ' Wait until nothing is pressed
     WHILE GetKeyScanCode() <> 0
     WEND
     
-    ' Repetimos mientras no se haya pulsado una tecla
+    ' Repeat until a key is pressed
     WHILE k = 0
-        ' Leemos la tecla pulsada
+        ' Read the pressed key
         k = GetKeyScanCode()        
     WEND
     
-    ' Devolvemos el código de la tecla pulsada
+    ' Return the code of the pressed key
     RETURN k
 END FUNCTION
 
 
-' - Define las teclas para Joystick SINCLAIR 1 ------------
-SUB TeclasSINCLAIR1()
-    Teclas(IZQUIERDA)=KEY1
-    Teclas(DERECHA)=KEY2
-    Teclas(ABAJO)=KEY3
-    Teclas(ARRIBA)=KEY4
-    Teclas(DISPARO)=KEY5
+' - Define keys for SINCLAIR 1 Joystick ------------
+SUB Sinclair1Keys()
+    Keys(LEFT_KEY)=KEY1
+    Keys(RIGHT_KEY)=KEY2
+    Keys(DOWN_KEY)=KEY3
+    Keys(UP_KEY)=KEY4
+    Keys(SHOOT_KEY)=KEY5
 END SUB
 
 
-' - Define las teclas para Joystick SINCLAIR 2 ------------
-SUB TeclasSINCLAIR2()
-    Teclas(IZQUIERDA)=KEY6
-    Teclas(DERECHA)=KEY7
-    Teclas(ABAJO)=KEY8
-    Teclas(ARRIBA)=KEY9
-    Teclas(DISPARO)=KEY0
+' - Define keys for SINCLAIR 2 Joystick ------------
+SUB Sinclair2Keys()
+    Keys(LEFT_KEY)=KEY6
+    Keys(RIGHT_KEY)=KEY7
+    Keys(DOWN_KEY)=KEY8
+    Keys(UP_KEY)=KEY9
+    Keys(SHOOT_KEY)=KEY0
 END SUB
 
 
-' - Define las teclas para Joystick CURSOR ----------------
-SUB TeclasCURSOR()
-    Teclas(IZQUIERDA)=KEY5
-    Teclas(DERECHA)=KEY8
-    Teclas(ABAJO)=KEY6
-    Teclas(ARRIBA)=KEY7
-    Teclas(DISPARO)=KEY0
+' - Define keys for CURSOR Joystick ------------
+SUB CursorKeys()
+    Keys(LEFT_KEY)=KEY5
+    Keys(RIGHT_KEY)=KEY8
+    Keys(DOWN_KEY)=KEY6
+    Keys(UP_KEY)=KEY7
+    Keys(SHOOT_KEY)=KEY0
 END SUB
 
 
-' - Opción probar teclas ----------------------------------
-SUB Probar()
+' - Option to test keys ----------------------------------
+SUB Test()
     DIM n AS UByte
     
-    ' Imprimimos el título
+    ' Print the title
     CLS
     INK 5
-    PRINT AT 5,5;"Probar: ENTER para salir..."
+    PRINT AT 5,2;"Test: PRESS ENTER to exit..."
     
-    ' Bucle infinito...
+    ' Infinite loop...
     DO
-        ' Si el tipo no es KEMPSTON
-        IF TipoControl <> 2 THEN
-            ' Escaneamos todas las teclas
+        ' If not using KEMPSTON
+        IF ControlType <> 2 THEN
+            ' Scan all keys
             FOR n = 0 TO 4
-                ' Comprobamos su la tecla del índice se ha pulsado
-                IF Multikeys(Teclas(n)) THEN
-                    ' Si se ha pulsado, imprimimos su nombre
-                    PRINT AT 7+n,13;INK n+2;TeclasS(n);
+                ' Check if the key at index is pressed
+                IF Multikeys(Keys(n)) THEN
+                    ' If pressed, print its name
+                    PRINT AT 7+n,13;INK n+2;KeysS(n);
+                ' If the key is not pressed...
                 ELSE
-                    ' Si no se ha pulsado la tecla, borramos el texto
+                    ' Clear the text
                     PRINT AT 7+n,13;"          ";
                 END IF
             NEXT n 
-        ' Si el tipo es KEMPSTON
+        ' If using KEMPSTON
         ELSE
-            ' Leemos el valor del puerto del Joystick KEMPSTON
+            ' Read the value of the KEMPSTON Joystick port
             n = IN(31)            
-            IF n bAND %10 THEN  ' Izquierda
-                PRINT AT 7,13;INK 2;TeclasS(IZQUIERDA);
+            IF n bAND %10 THEN  ' Left
+                PRINT AT 7,13;INK 2;KeysS(LEFT_KEY);
             ELSE
                 PRINT AT 7,13;"          ";
             END IF
-            IF n bAND %1 THEN   ' Derecha
-                PRINT AT 8,13;INK 3;TeclasS(DERECHA);
+            IF n bAND %1 THEN   ' Right
+                PRINT AT 8,13;INK 3;KeysS(RIGHT_KEY);
             ELSE
                 PRINT AT 8,13;"          ";
             END IF
-            IF n bAND %1000 THEN    ' Arriba
-                PRINT AT 9,13;INK 4;TeclasS(ARRIBA);
+            IF n bAND %1000 THEN    ' Up
+                PRINT AT 9,13;INK 4;KeysS(UP_KEY);
             ELSE
                 PRINT AT 9,13;"          ";
             END IF
-            IF n bAND %100 THEN    ' Abajo
-                PRINT AT 10,13;INK 5;TeclasS(ABAJO);
+            IF n bAND %100 THEN    ' Down
+                PRINT AT 10,13;INK 5;KeysS(DOWN_KEY);
             ELSE
                 PRINT AT 10,13;"          ";
             END IF
-            IF n bAND %10000 THEN    ' Disparo
-                PRINT AT 11,13;INK 6;TeclasS(DISPARO);
+            IF n bAND %10000 THEN    ' Shoot
+                PRINT AT 11,13;INK 6;KeysS(SHOOT_KEY);
             ELSE
                 PRINT AT 11,13;"          ";
             END IF
         END IF
                 
-        ' Si la tecla pulsada es la de salir, salimos
+        ' If the pressed key is to exit, then exit
         IF MultiKeys(KEYENTER) THEN
             RETURN
         END IF

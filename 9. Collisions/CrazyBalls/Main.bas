@@ -65,7 +65,7 @@ Start:
     
     ' Loop until a key is pressed
     WHILE INKEY$=""       
-        ' Loop through the ball matrix
+        ' Loop through the ball array
         FOR n = 0 TO MAX_BALLS
             ' Copy the ball data locally
             x = Balls(n,BALL_X)

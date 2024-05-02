@@ -1,41 +1,41 @@
 ' - Next Mouse demo ---------------------------------------
-' Módulo de menú
+' Menu module
 
-' - Menú del juego
+' - Game menu
 SUB Menu()
-    ' Borramos la pantalla de la ULA
+    ' Clear ULA screen
     CLS
-    ' Borramos la pantalla de la Layer 2
+    ' Clear Layer 2 screen
     CLS256(0)
 
-    ' Imprimimos "MOUSE DEMO!" centrado a 16x16
-    ImprimirCentrado16(1,"MOUSE DEMO!")
-    ' Imprime el record centrado
-    ImprimirCentrado16(4,"RECORD: " + STR(Record))
-    ' Espera a que hagamos clic
-    ImprimirCentrado16(8,"CLICK MOUSE!")
-    PausaClic()
+    ' Print "MOUSE DEMO!" centered at 16x16
+    PrintCentered16(1,"MOUSE DEMO!")
+    ' Print the record centered
+    PrintCentered16(4,"RECORD: " + STR(Record))
+    ' Wait for mouse click
+    PrintCentered16(8,"CLICK MOUSE!")
+    PauseClick()
     
-    ' Semilla de los números aleatorios al TIMER
+    ' Seed random numbers to TIMER
     RANDOMIZE 0
 END SUB
 
 
-' - Espera a que hagamos clic con el botón izquierdo ------
-' Si el botón está pulsado al entrar, espera a que lo
-' soltemos
-SUB PausaClic()
-    ' Bucle hasta que el botón izquierdo no esté apretado
+' - Wait for left mouse button click ----------------------
+' If the button is pressed upon entering, wait until it is
+' released
+SUB PauseClick()
+    ' Loop until the left button is not pressed
     DO
-        ' Leermos el estado del ratón
-        LeerMouse()  
-    ' Repetimos si MouseBotonI no es cero (pulsado)
-    LOOP WHILE MouseBotonI <> 0
+        ' Read the mouse state
+        ReadMouse()  
+    ' Repeat if MouseButtonL is not zero (pressed)
+    LOOP WHILE MouseButtonL <> 0
     
-    ' Bucle hasta que pulsemos el botón izquierdo
+    ' Loop until we press the left button
     DO
-        ' Leemos el estado del ratón
-        LeerMouse()
-    ' Repetimos si MouseBotonI es (no pulsado)
-    LOOP WHILE MouseBotonI = 0  
+        ' Read the mouse state
+        ReadMouse()
+    ' Repeat if MouseButtonL is (not pressed)
+    LOOP WHILE MouseButtonL = 0  
 END SUB

@@ -1,26 +1,26 @@
-' - Rutinas para la gestión del mouse ---------------------
+' - Mouse management routines -----------------------------
 
 
-' Variables globales
-' Se actualizan en cada llamada a LeerMouse
-' Coordenadas X e Y del ratón
+' Global variables
+' Updated with each call to LeerMouse
+' Mouse X and Y coordinates
 DIM MouseX, MouseY AS UByte
-' Valor directo de los botones, botón izquierdo y derecho
-DIM MouseBoton, MouseBotonI, MouseBotonD AS UByte
+' Direct value of the buttons, left and right button
+DIM MouseButton, MouseButtonL, MouseButtonR AS UByte
 
 
-' - Lee los datos del ratón -------------------------------
-' Esta rutina actualiza las variables globales MouseX,
-' MouseY, MouseBoton (valor directo), MouseBotonI y
-' MouseBotonD
-Sub LeerMouse()
-    ' Leemos las coordenadas x e y del ratón
+' - Reads mouse data --------------------------------------
+' This routine updates the global variables MouseX,
+' MouseY, MouseButton (direct value), MouseButtonL and
+' MouseButtonR
+Sub ReadMouse()
+    ' Reads the x and y coordinates of the mouse
     MouseX = IN ($fbdf)
     MouseY = IN ($ffdf)
-    ' Leemos el estado de los botones
-    MouseBoton = IN ($fadf)
-    ' El bit 0 es el botón derecho
-    MouseBotonD = (MouseBoton bAND %1) = 0
-    ' El bit 1 es el botón izquierdo
-    MouseBotonI = (MouseBoton bAND %10) = 0
+    ' Reads the state of the buttons
+    MouseButton = IN ($fadf)
+    ' Bit 0 is the right button
+    MouseButtonR = (MouseButton bAND %1) = 0
+    ' Bit 1 is the left button
+    MouseButtonL = (MouseButton bAND %10) = 0
 END SUB

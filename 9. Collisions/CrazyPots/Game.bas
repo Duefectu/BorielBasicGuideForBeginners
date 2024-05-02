@@ -1,4 +1,4 @@
-' - Crazy Flowerpots -------------------------------------
+' - Crazy Pots ------------------------------------------
 ' - Game Module -----------------------------------------
 
 ' Declare the "DetectCollisions" function
@@ -272,7 +272,7 @@ SUB CreateThing()
         IF r > 95 THEN
             ' Look for a spot to create the pot
             FOR n = 0 TO THINGS_MAX
-                ' We can use the element of the matrix if
+                ' We can use the element of the array if
                 ' THING_TYPE is equal to 0...
                 IF Things(n,THING_TYPE) = 0 THEN
                     ' X coordinate of the pot
@@ -299,7 +299,7 @@ SUB DrawThings()
     DIM n, t, f, x, y AS UByte
     DIM dir AS UInteger
     
-    ' Iterate over all elements of the "Things" matrix
+    ' Iterate over all elements of the "Things" array
     FOR n = 0 TO THINGS_MAX
         ' Pot type
         t = Things(n,THING_TYPE)
