@@ -2,7 +2,7 @@
 
 
 ' Global variables
-' Updated with each call to LeerMouse
+' Updated with each call to ReadMouse
 ' Mouse X and Y coordinates
 DIM MouseX, MouseY AS UByte
 ' Direct value of the buttons, left and right button

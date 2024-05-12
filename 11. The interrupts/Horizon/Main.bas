@@ -4,7 +4,7 @@
 ' Declare two variables for use within IM2CallMyRoutine
 ' These variables must be global
 ' Counter for wasting time
-Dim im2_Counter AS UInteger
+DIM im2_Counter AS UInteger
 ' Height of the horizon
 DIM im2_Horizon AS UInteger = 400
 

@@ -50,7 +50,7 @@ SUB Main()
             ' If redefining, switch to keyboard
             ControlType = 1
         ELSE IF option = 3 THEN
-            ' Option 2 is keyboard
+            ' Option 3 is keyboard
             ControlType = 1
         ELSE IF option = 4 THEN
             ' Option 4 is for KEMPSTON
