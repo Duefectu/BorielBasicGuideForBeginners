@@ -1,11 +1,11 @@
 ' - MerryXmas ---------------------------------------------
-' https://tinyurl.com/2r3x8cz7
+' https://tinyurl.com/5dvzebd2
 
 ' 52 notes = 52 x 2 = 104 (-1 as it starts from 0)
 ' We use one line for each 3/4 bar
 ' First value is duration, second is pitch (128 for pause)
 ' Use duration = 1 for Eight note
-DIM Christmas(103) AS Integer = { _
+Dim Christmas(103) AS Integer = { _
     2,14, _
     2,18, 1,18, 1,20, 1,18, 1,17, _
     2,15, 2,15, 2,15, _
