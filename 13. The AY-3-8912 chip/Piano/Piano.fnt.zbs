@@ -1,0 +1,12 @@
+{
+  "ExportType": 4,
+  "ExportDataType": 0,
+  "AutoExport": true,
+  "ExportFilePath": "C:\\spectrum\\Piano\\Piano.fnt.bas",
+  "LabelName": "Piano",
+  "ZXFileName": "Piano",
+  "ZXAddress": 49152,
+  "ArrayBase": 0,
+  "IncludeSize": false,
+  "IncludeAttr": false
+}
