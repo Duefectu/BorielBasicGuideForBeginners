@@ -1,40 +1,40 @@
 ' - BeepFXDemo --------------------------------------------
-' https://tinyurl.com/383drd2v
+' https://tinyurl.com/5dcy3ujm
 
-' Llamamos a la subrutina principal
+' Call the main subroutine
 Main()
 STOP
 
 
 ' - Includes ----------------------------------------------
-#INCLUDE <Input.bas>    ' Para el comando INPUT
-#INCLUDE "BeepFX.bas"   ' Nuestra librería de sonidos
+#INCLUDE <Input.bas>    ' For the INPUT command
+#INCLUDE "BeepFX.bas"   ' Our sound library
 
 
-' - Subrutina principal -----------------------------------
+' - Main subroutine ----------------------------------------
 SUB Main()
-    DIM sonido AS UByte ' Sonido a reproducir
-    DIM txt AS String   ' Texto del INPUT
+    DIM sound AS UByte ' Sound to play
+    DIM txt AS String   ' Text from INPUT
     
-    ' Preparamos la pantalla
+    ' Prepare the screen
     BORDER 0
     PAPER 0
     INK 6
 
-    ' Repetimos hasta que no haya un mañana
+    ' Repeat until the end of time
     DO
-        ' Borramos
+        ' Clear the screen
         CLS
-        ' Imprimimos un texto
-        PRINT AT 5,0;"Teclea el codigo, (0-58): "; 
-        ' Leermos la entrada desde el teclado
-        txt = input(2)
-        ' sonido = al valor numérico introducido
-        sonido = val(txt)
-        ' Si el valor está entre 0 y 58...
-        IF sonido >= 0 AND sonido <= 58 THEN
-            ' Reproducimos el sonido
-            BeepFX_Play(sonido)
+        ' Print some text
+        PRINT AT 5,0;"Enter code, (0-58): "; 
+        ' Read input from the keyboard
+        txt = INPUT$(2)
+        ' sound = the numerical value entered
+        sound = VAL(txt)
+        ' If the value is between 0 and 58...
+        IF sound >= 0 AND sound <= 58 THEN
+            ' Play the sound
+            BeepFX_Play(sound)
         END IF
     LOOP    
 END SUB

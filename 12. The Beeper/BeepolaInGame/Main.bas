@@ -1,172 +1,167 @@
 ' - Beepola In-Game DEMO ----------------------------------
-' https://tinyurl.com/mrknudc3
+' https://tinyurl.com/w8vwj4kv
 
-' Saltamos a la rutina principal
+' Jump to the main routine
 Main()
 STOP
 
-
 ' - Includes ----------------------------------------------
-' Librerías de Boriel
+' Boriel libraries
 #INCLUDE <keys.bas>
 #INCLUDE <retrace.bas>
 #INCLUDE <putchars.bas>
 
-' Módulos del programa
-#INCLUDE "Musica.bas"
+' Program modules
+#INCLUDE "Music.bas"
 #INCLUDE "StreetsOfRain.bas"
-#INCLUDE "Navecilla.spr.bas"
+#INCLUDE "Ship.spr.bas"
 
+' - Definitions ------------------------------------------
+#DEFINE MAX_STARS 6
+#DEFINE STAR_X 0
+#DEFINE STAR_Y 1
+#DEFINE STAR_TYPE 2
 
-' - Definiciones ------------------------------------------
-#DEFINE ESTRELLAS_MAX 6
-#DEFINE ESTRELLA_X 0
-#DEFINE ESTRELLA_Y 1
-#DEFINE ESTRELLA_TIPO 2
-
-
-' - Subrutina principal -----------------------------------
+' - Main subroutine ----------------------------------------
 SUB Main()    
-    ' Inicializamos todo
-    Inicializar()
-    ' Saltamos directamente a la demo
+    ' Initialize everything
+    Initialize()
+    ' Jump directly to the demo
     Demo()
 END SUB
 
-
-' - Inicializa el programa --------------------------------
-SUB Inicializar()
+' - Initializes the program -------------------------------
+SUB Initialize()
     DIM n AS UByte
     
-    ' Todo negro con tinta blanca y brilli brilli
+    ' All black with white ink and bright
     BORDER 0
     PAPER 0
     INK 7
     BRIGHT 1
     CLS
     
-    ' Inicializamos la música
+    ' Initialize music
     Music_Init()
-    ' Empezamos a reproducir la música
+    ' Start playing music
     Music_Play()
     
-    ' Inicializamos los números aleatorios
+    ' Initialize random numbers
     RANDOMIZE 0
 END SUB
 
-
-' - Subrutina principal de la demostración ----------------
+' - Main demo subroutine ----------------------------------
 SUB Demo()
-    ' Coordenadas x, y, e imagen de la nave
+    ' Ship coordinates x, y, and frame
     DIM x, y, f AS UByte
-    ' Copia de las coordenadas de la nave
+    ' Copy of ship coordinates
     DIM x2, y2, n AS UByte
-    ' Definimos un array de estrellas
-    DIM Estrellas(ESTRELLAS_MAX,2) AS UByte
-    ' Variables de trabajo para Estrellas
+    ' Define an array of stars
+    DIM Stars(MAX_STARS,2) AS UByte
+    ' Working variables for Stars
     DIM xe, ye, te AS UByte
 
-    ' Colocamos la nave en el centro y un poco a la izquierda
+    ' Place the ship in the center and a bit to the left
     x = 5
     y = 10
     f = 0
     
-    ' Creamos las estrellas
-    FOR n = 0 TO ESTRELLAS_MAX-2
-        Estrellas(n,ESTRELLA_X) = RND * 31
-        Estrellas(n,ESTRELLA_Y) = RND * 23
-        Estrellas(n,ESTRELLA_TIPO) = (RND * 3)+1
+    ' Create stars
+    FOR n = 0 TO MAX_STARS-2
+        Stars(n,STAR_X) = RND * 31
+        Stars(n,STAR_Y) = RND * 23
+        Stars(n,STAR_TYPE) = (RND * 3)+1
     NEXT n
     
-    ' Imprimimos la nave por primera vez
-    putChars(x,y,2,2,@Navecilla_Nave(f,0))
-    PRINT AT 23,0;"Pulsa M para silenciar/sonar";
+    ' Print the ship for the first time
+    putChars(x,y,2,2,@Navecilla_Ship(f,0))
+    PRINT AT 23,0;"Press M to toggle music";
     
-    ' Bucle infinito
+    ' Infinite loop
     DO        
-        ' Sacamos una copia de x e y en x2 e y2
+        ' Make a copy of x and y in x2 and y2
         x2 = x
         y2 = y        
         
-        ' Control del teclado
-        IF MultiKeys(KEYQ) THEN     ' Tecla arriba
+        ' Keyboard control
+        IF MultiKeys(KEYQ) THEN     ' Up key
             IF y2 > 0 THEN
-                ' Si no está arriba, la movemos
+                ' If not at the top, move up
                 y2 = y2 - 1
-                ' Imagen de ladeo hacia arriba
+                ' Image tilts upwards
                 f = 1
             END IF
-        ELSEIF MultiKeys(KEYA) THEN ' Tecla abajo
+        ELSEIF MultiKeys(KEYA) THEN ' Down key
             IF y2 < 22 THEN
-                ' Si no está abajo, la movemos
+                ' If not at the bottom, move down
                 y2 = y2 + 1
-                ' Imagen de ladeo hacia abajo
+                ' Image tilts downwards
                 f = 2
             END IF
-        ELSE IF f <> 0  ' Si nos estamos moviendo
-            ' Imagen de la nave estabilizada
+        ELSE IF f <> 0  ' If moving
+            ' Ship image stabilized
             f = 0
         END IF
 
-        IF MultiKeys(KEYO) THEN     ' Izquierda
+        IF MultiKeys(KEYO) THEN     ' Left key
             IF x2 > 0 THEN
-                ' Si no hemos llegado al borde nos movemos
+                ' If not at the left edge, move left
                 x2 = x2 - 1
             END IF
-        ELSEIF MultiKeys(KEYP) THEN ' Derecha
+        ELSEIF MultiKeys(KEYP) THEN ' Right key
             IF x2 < 29 THEN
-                ' Si no hemos llegado al borde nos movemos
+                ' If not at the right edge, move right
                 x2 = x2 + 1
             END IF
         END IF
 
-        IF Multikeys(KEYM) THEN     ' Tecla M        
+        IF Multikeys(KEYM) THEN     ' M key        
             IF Music_Playing = 1 THEN
-                ' Si está sonando lo paramos
+                ' If music is playing, stop it
                 Music_Stop()
-                ' Esperar a que soltemos la tecla M
+                ' Wait until M key is released
                 WHILE INKEY$<>"":WEND
             ELSE
-                ' Si está parado lo arranzamos
+                ' If music is stopped, start it
                 Music_Play()
-                ' Esperar a que soltemos la tecla M
+                ' Wait until M key is released
                 WHILE INKEY$<>"":WEND
             END IF
         END IF       
 
-        ' Hacemos una pausa para evitar el parpadeo
+        ' Pause to avoid flickering
         waitretrace
         
-        ' Movemos las estrellas
-        FOR n = 0 TO ESTRELLAS_MAX
-            ' Pasamos los valores de la estrella a local
-            xe=Estrellas(n,ESTRELLA_X)
-            ye=Estrellas(n,ESTRELLA_Y)
-            te=Estrellas(n,ESTRELLA_TIPO)
-            ' Borramos la estrella
-            putChars(xe,ye,1,1,@Navecilla_Estrella(1,0))
-            ' Se va a salir la estrella por la izquierda...
+        ' Move stars
+        FOR n = 0 TO MAX_STARS
+            ' Assign star values to local variables
+            xe=Stars(n,STAR_X)
+            ye=Stars(n,STAR_Y)
+            te=Stars(n,STAR_TYPE)
+            ' Erase the star
+            putChars(xe,ye,1,1,@Navecilla_Star(1,0))
+            ' If the star is going to go out from the left...
             IF xe > te THEN
-                ' Si no se sale, restamos el tipo a x
+                ' If not out, subtract type from x
                 xe = xe - te
-                Estrellas(n,ESTRELLA_X) = xe
-                ' Imprimimos la estrella
-                putChars(xe,ye,1,1,@Navecilla_Estrella(0,0))
-            ' Si se va a salir
+                Stars(n,STAR_X) = xe
+                ' Print the star
+                putChars(xe,ye,1,1,@Navecilla_Star(0,0))
+            ' If it's going out
             ELSE
-                ' Colocamos la estrella a la derecha
-                Estrellas(n,ESTRELLA_X) = 31
-                ' Resto de datos aleatorios
-                Estrellas(n,ESTRELLA_Y) = RND * 23
-                Estrellas(n,ESTRELLA_TIPO) = (RND * 3)+1
+                ' Place the star to the right
+                Stars(n,STAR_X) = 31
+                ' Rest of random data
+                Stars(n,STAR_Y) = RND * 23
+                Stars(n,STAR_TYPE) = (RND * 3)+1
             END IF
         NEXT n
         
-        ' Borramos la nave
-        putChars(x,y,2,2,@Navecilla_Nave(3,0))
-        ' La imprimimos en la nueva posición
-        putChars(x2,y2,2,2,@Navecilla_Nave(f,0))
-        ' Volcamos x2 e y2 en x e y
+        ' Erase the ship
+        putChars(x,y,2,2,@Navecilla_Ship(3,0))
+        ' Print it in the new position
+        putChars(x2,y2,2,2,@Navecilla_Ship(f,0))
+        ' Update x and y with x2 and y2
         x = x2
         y = y2
     LOOP

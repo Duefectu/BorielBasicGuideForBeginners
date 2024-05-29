@@ -1,92 +1,92 @@
 ' - TheMusicBox -------------------------------------------
-' https://tinyurl.com/2t4f2cz5
+' https://tinyurl.com/3ndtumxd
 
-' Invocamos la subrutina principal
+' Invoke the main subroutine
 Main()
 STOP
 
 
 ' - Includes ----------------------------------------------
 #INCLUDE "TheMusicBox.bas"
-#INCLUDE "Canciones.bas"
+#INCLUDE "Songs.bas"
 
 
-' - Definiciones ------------------------------------------
-#DEFINE MAX_CANCIONES 2
+' - Definitions ------------------------------------------
+#DEFINE MAX_SONGS 2
 
 
 ' - Variables ---------------------------------------------
-' Nombres de las canciones
-DIM Canciones_Nombres(MAX_CANCIONES) AS String
-' Direcciones de las canciones
-DIM Canciones_Direcciones(MAX_CANCIONES) AS UInteger => { _
-    @Cancion_Amelie, _
-    @Cancion_Arp_chaos, _
-    @Cancion_InTheHallOfTheMountainKing }
+' Names of the songs
+DIM Songs_Names(MAX_SONGS) AS String
+' Addresses of the songs
+DIM Songs_Address(MAX_SONGS) AS UInteger => { _
+    @Song_Amelie, _
+    @Song_Arp_chaos, _
+    @Song_InTheHallOfTheMountainKing }
 
 
-' - Subrutina principal
+' - Main subroutine ---------------------------------------
 SUB Main()
-    ' Canción actual, empezamos por la 0
-    DIM cancion AS UByte = 0
-    ' Para la tecla que se ha pulsado
+    ' Current song, starting at 0
+    DIM song AS UByte = 0
+    ' For the pressed key
     DIM k AS String
-    ' Para convertir la tecla a número
+    ' To convert the key to a number
     DIM c AS UByte
-    ' Coordenada X e incremento de la pelotita 
+    ' X coordinate and ball increment
     DIM x, i AS Byte
     
-    ' Inicializa el sistema
-    Inicializar()
+    ' Initialize the system
+    Initialize()
 
-    ' La pelota empieza en la columna 5
+    ' The ball starts at column 5
     x = 5
-    ' Y va hacia la derecha
+    ' And moves to the right
     i = 1
     
-    ' Bucle infinito
+    ' Infinite loop
     DO
-        ' Borramos la pantalla
+        ' Clear the screen
         CLS
-        ' Imprimimos la canción actual
-        PRINT AT 5,0; INK 6;"Sonando:";
-        PRINT AT 6,0; INK 7;Canciones_Nombres(cancion);
-        ' Hacemos sonar la canción actual
-        Beepola_Play(Canciones_Direcciones(cancion))
+        ' Print the current song
+        PRINT AT 5,0; INK 6;"Playing:";
+        PRINT AT 6,0; INK 7;Songs_Names(song);
+        ' Play the current song
+        Beepola_Play(Songs_Address(song))
 
-        ' Mostramos el listado de canciones
-        PRINT AT 9,0;INK 5;"Seleccione la cancion";
-        FOR n = 0 TO MAX_CANCIONES
-            PRINT AT 10+n,0; INK n+2;n;"-";Canciones_Nombres(n);
+        ' Show the list of songs
+        PRINT AT 9,0;INK 5;"Select song";
+        FOR n = 0 TO MAX_SONGS
+            PRINT AT 10+n,0; INK n+2;n;"-";Songs_Names(n);
         NEXT n
         
-        ' Bucle de selección
+        ' Selection loop
         DO
-            ' Imprimimos la pelotita
+            ' Print the ball
             PRINT AT 20,x;" O ";
-            ' Comprobamos si se va a salir
+            ' Check if it's going to go out
             IF x > 0 AND x < 29 THEN
-                ' Si no se sale, movemos
+                ' If it's not going out, move
                 x = x + i
             ELSE
-                ' Si se sale, cambiamos la dirección
+                ' If it's going out, change direction
                 i = i * -1
                 x = x + i
             END IF
 
-            ' Leemos el teclado
+            ' Read the keyboard
             k = INKEY$
             IF k <> "" THEN
-                ' Convertimos la tecla a número
+                ' Convert the key to a number
                 c = val(k)
-                ' Si la tecla está entre 0 y el máximo
-                ' de canciones
-                IF c >= 0 AND c <= MAX_CANCIONES THEN
-                    ' Detenemos la reproducción actual
+                ' If the key is between 0 and the maximum
+                ' number of songs
+                IF c >= 0 AND c <= MAX_SONGS THEN
+                    ' Stop the current playback
                     Beepola_Stop()
-                    ' Ajustamos la nueva canción
-                    cancion = c
-                    ' Salimos del bucle de selección
+                    ' Set the new song
+                    song = c
+                    ' Exit the selection loop
                     EXIT DO
                 END IF
             END IF
@@ -95,17 +95,17 @@ SUB Main()
 END SUB
 
 
-SUB Inicializar()
+SUB Initialize()
     BORDER 0
     PAPER 0
     INK 6
     CLS
     
-    ' Nombres de las canciones
-    Canciones_Nombres(0) = "Amelie"
-    Canciones_Nombres(1) = "Arp chaos"
-    Canciones_Nombres(2) = "In the Hall of the Mountain King"
+    ' Names of the songs
+    Songs_Names(0) = "Amelie"
+    Songs_Names(1) = "Arp chaos"
+    Songs_Names(2) = "In the Hall of the Mountain King"
     
-    ' Inicializa el motor The Music Box con interrupciones
+    ' Initialize The Music Box engine with interrupts
     Beepola_Init(0,1)
-END SUB    
+END SUB

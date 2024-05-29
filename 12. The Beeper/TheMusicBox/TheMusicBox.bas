@@ -1,45 +1,45 @@
 ' ---------------------------------------------------------
-' - Motor The Music Box para Boriel -----------------------
-' - Modificado sobre el código de Chris Cowley, que a su
-' - vez se basa en el original de Mark Alexander 
+' - The Music Box Engine for Boriel -----------------------
+' - Modified from Chris Cowley's code, which in turn is ---
+' - based on the original by Mark Alexander ---------------
 ' ---------------------------------------------------------
 
 
-' Estado de reproducción, 0=Parado, 1=Reproduciendo
-' solo si utilizamos las interrupciones integradas
+' Playback state, 0=Stopped, 1=Playing
+' only if we use the integrated interrupts
 DIM Beepola_Status AS UByte
 
 
-' - Empieza a reproducir una canción ----------------------
-' Parámetros:
-'   songAddre (UInteger): Dirección de la canción
+' - Start playing a song ----------------------
+' Parameters:
+'   songAddr (UInteger): Song address
 SUB Beepola_Play(songAddr AS UInteger)
 ASM
-    push ix             ; Guardamos ix
+    push ix             ; Save ix
     
-    xor a               ; Ponemos el estado a STOP (0)
+    xor a               ; Set status to STOP (0)
     ld (._Beepola_Status),a
     
-    call BEEPOLA_START  ; Inicializamos Beepola 
+    call BEEPOLA_START  ; Initialize Beepola 
     
-    ld a,1              ; Ponemos el estado a PLAY (1)
+    ld a,1              ; Set status to PLAY (1)
     ld (._Beepola_Status),a
     
-    pop ix              ; Recuperamos ix
+    pop ix              ; Restore ix
 END ASM
 END SUB
 
 
-' - Detiene la reproducción de una canción ----------------
-' Solo si utilizamos las interrupciones integradas
+' - Stops the playback of a song ----------------
+' Only if we use integrated interrupts
 SUB Beepola_Stop()
-    ' Ponemos el estado a STOP (0)
+    ' Set status to STOP (0)
     Beepola_Status = 0
 END SUB
 
 
-' - Reproduce la siguiente nota ---------------------------
-' Solo si no utilizamos las interrupciones integradas
+' - Plays the next note ------------------------
+' Only if we don't use integrated interrupts
 SUB Beepola_NextNote()
 ASM
     push ix
@@ -49,36 +49,36 @@ END ASM
 END SUB
 
 
-' - Inicializa el motor de reproducción -------------------
-' Parámetros:
-'   colorBorde (UByte): Color del borde
-'   usarIM2 (UByte): 0=No usar IM2
-'                    1=Usar IM2 interno (requiere memoria
-'                      libre de $fefe a $ff00)
-SUB Beepola_Init(colorBorde AS UByte, usarIM2 AS UByte)
+' - Initializes the playback engine -----------
+' Parameters:
+'   borderColor (UByte): Border color
+'   useIM2 (UByte): 0=Do not use IM2
+'                   1=Use internal IM2 (requires memory
+'                      free from $fefe to $ff00)
+SUB Beepola_Init(borderColor AS UByte, useIM2 AS UByte)
 ASM
     push ix
     
-    ld a,(ix+5)         ; Recuperamos el parámetro colorBorde   
-    ld (BORDER_COL),a   ; Ajustamos el color del borde
+    ld a,(ix+5)         ; Recover the borderColor parameter   
+    ld (BORDER_COL),a   ; Set the border color
     
-    xor a               ; Ponemos el estado a STOP (0)
+    xor a               ; Set status to STOP (0)
     ld (._Beepola_Status),a
 
-    ld a,(ix+7)         ; Recuperamos el parámetro usarIM2    
-    and a               ; Activamos los flags    
-    jp z,BEEPOLA_FIN    ; Si A es cero, no iniciamos IM2
+    ld a,(ix+7)         ; Recover the useIM2 parameter    
+    and a               ; Activate flags    
+    jp z,BEEPOLA_END    ; If A is zero, we do not initialize IM2
 
-BEEPOLA_INITIM2:        ; Inicializamos IM2
-BEEPOLA_IM2_JUMP    EQU     $fefe   ; Dirección de salto IM2
+BEEPOLA_INITIM2:        ; Initialize IM2
+BEEPOLA_IM2_JUMP    EQU     $fefe   ; IM2 Jump address
 
-    di              ; Deshabilitamos las interrupciones
-    ; Construimos la tabla de vectores
-    ld de,BEEPOLA_IM2_TABLE ; Dirección de la tabla
-    ld hl,BEEPOLA_IM2_JUMP  ; Dirección de salto intermedio
-    ld a,d          ; Ajustamos el valor de I
+    di              ; Disable interrupts
+    ; Build the vector table
+    ld de,BEEPOLA_IM2_TABLE ; Table address
+    ld hl,BEEPOLA_IM2_JUMP  ; Intermediate jump address
+    ld a,d          ; Adjust the value of I
     ld i,a
-    ld a,l          ; Rellenamos la tabla con 257 bytes
+    ld a,l          ; Fill the table with 257 bytes
 BEEPOLA_NO_BUC:
     ld (de),a
     inc e
@@ -86,20 +86,19 @@ BEEPOLA_NO_BUC:
     inc d
     ld (de),a
     
-    ; En la dirección de salto intermedio colocamos un
-    ; JP BEEPOLA_IM2_JUMP
-    ld a,$c3        ; $C3 es el código de JP en assembler
+    ; Set the intermediate jump address
+    ld a,$c3        ; $C3 is the code for JP in assembler
     ld (BEEPOLA_IM2_JUMP),a
-    ld hl,BEEPOLA_IM2_TICK  ; 2 bytes para la dirección
+    ld hl,BEEPOLA_IM2_TICK  ; Next 2 bytes for the address
     ld (BEEPOLA_IM2_JUMP+1),hl
     
-    im 2            ; Ajustamos el modo de interrupción a 2
-    ei              ; Activamos las interrupciones        
-    jp BEEPOLA_FIN  ; Saltamos al final para salir
+    im 2            ; Set interrupt mode to 2
+    ei              ; Enable interrupts        
+    jp BEEPOLA_END  ; Jump to the end to exit
 
-    ; Aquí saltará en cada interrupción
+    ; This will jump at each interrupt
 BEEPOLA_IM2_TICK:
-    ; Guardamos todos los registros
+    ; Save all registers
     push af
     push hl
     push bc
@@ -113,14 +112,14 @@ BEEPOLA_IM2_TICK:
     push bc
     push de
     
-    ld a,(._Beepola_Status)       ; Recuperamos el estado
-    and a                       ; Si es 0 (STOP) salimos
+    ld a,(._Beepola_Status)       ; Recover the status
+    and a                       ; If it's 0 (STOP), exit
     jr z,BEEPOLA_IM2_TICK_END
     
-    call BEEPOLA_NEXTNOTE       ; Tocamos la siguiente nota
+    call BEEPOLA_NEXTNOTE       ; Play the next note
    
 BEEPOLA_IM2_TICK_END:
-    ; Recuperamos todos los registros que hemos guardado
+    ; Restore all registers
     pop de
     pop bc
     pop hl
@@ -134,15 +133,15 @@ BEEPOLA_IM2_TICK_END:
     pop hl
     pop af
         
-    ei              ; Activamos las interrupciones
-    reti            ; Salimos de la interrupción
+    ei              ; Enable interrupts
+    reti            ; Exit interrupt
 
-    ; Espacio para la tabla de vectores de interrupción
-    ; Debe empezar en una dirección múltiplo de 256
-    ALIGN 256       ; Alineamos a 256
+    ; Space for the interrupt vector table
+    ; It must start at an address multiple of 256
+    ALIGN 256       ; Align to 256
 BEEPOLA_IM2_TABLE:
-    defs 257,0      ; Reservamos 257 bytes con el valor 0
- 
+    defs 257,0      ; Reserve 257 bytes with the value 0
+
 ; *****************************************************************************
 ; * The Music Box Player Engine
 ; *
@@ -323,7 +322,7 @@ SILENCE_LOOP:             PUSH HL
 BORDER_COL:               DEFB $0
 TEMPO:                    DEFB 238
 
-BEEPOLA_FIN:
+BEEPOLA_END:
     pop ix
 END ASM
 

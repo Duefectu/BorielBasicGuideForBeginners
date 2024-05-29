@@ -5,7 +5,7 @@
 ' We use one line for each 3/4 bar
 ' First value is duration, second is pitch (128 for pause)
 ' Use duration = 1 for Eight note
-Dim Christmas(103) AS Integer = { _
+DIM Christmas(103) AS Integer = { _
     2,14, _
     2,18, 1,18, 1,20, 1,18, 1,17, _
     2,15, 2,15, 2,15, _
@@ -46,8 +46,8 @@ PRINT ""
 ' One unit in PAUSE is 0.02 seconds
 pauseTempo = tempo / .02
 
-' Set READ pointer to the "Lyrics" label
-RESTORE Lyrics
+' Set READ pointer to the "LyricsData" label
+RESTORE LyricsData
 
 ' Loop to go through the entire song
 FOR n = 0 TO 103 STEP 2
@@ -78,7 +78,7 @@ FOR n = 0 TO 103 STEP 2
 NEXT n
 
 
-Lyrics:
+LyricsData:
 ' Lyrics of the song, one element per note
 DATA "We "
 DATA "wish ","you ","a ", "Mer", "ry "

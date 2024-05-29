@@ -1,22 +1,22 @@
 ' - BeepolaDemo -------------------------------------------
-' https://tinyurl.com/y75rsevt
+' https://tinyurl.com/yy7zfm4x
 
-' Llamamos a la subrutina principal
+' Call the main subroutine
 Main()
 STOP
 
 ' - Includes ----------------------------------------------
-#INCLUDE <retrace.bas>      ' Librería para waitretrace
-#INCLUDE <Keys.bas>         ' Librería para MultiKeys
-#INCLUDE "Triptone.bas"     ' Motor Triptone
-#INCLUDE "TheMusicBox.bas"  ' Motor The Music Box
+#INCLUDE <retrace.bas>      ' Library for waitretrace
+#INCLUDE <Keys.bas>         ' Library for MultiKeys
+#INCLUDE "Triptone.bas"     ' Triptone Motor
+#INCLUDE "TheMusicBox.bas"  ' The Music Box Motor
 
 
-' - Subrutina principal -----------------------------------
+' - Main subroutine ----------------------------------------
 SUB Main()
-    ' Llamamos al módulo de la Intro
+    ' Call the Intro module
     Intro()
-    ' Después de la intro, va el menú del juego
+    ' After the intro, the game menu follows
     Menu()
     
     CLS
@@ -25,62 +25,55 @@ SUB Main()
 END SUB
 
 
-' - Intro de la demo --------------------------------------
+' - Demo intro ---------------------------------------------
 SUB Intro()
-    ' Ajustamos los colores de la pantalla
+    ' Adjust screen colors
     BORDER 0
     PAPER 0
     INK 6
-    CLS ' Este borrado es opcional
+    CLS ' This deletion is optional
     
-    ' Imprimimos algo
-    PRINT AT 5,2;"ESTA ES LA MUSICA DE LA INTRO";
-    PRINT AT 15,2;"Pulsa una tecla para seguir...";
+    ' Print something
+    PRINT AT 5,2;"THIS IS THE INTRO MUSIC";
+    PRINT AT 15,2;"Press any key to continue...";
     
-    ' Hacemos que suene la canción
+    ' Play the song
     Triptone_Play()
 END SUB
 
 
-' - Menú de la demo ---------------------------------------
+' - Demo menu ----------------------------------------------
 SUB Menu()
-    DIM contador AS UByte
-    
-    ' Inicializamos el motor The Music Box
+    ' Initialize The Music Box motor
     TheMusicBox_Init()
     
-    ' Imprimimos el menú
+    ' Print the menu
     CLS
     INK 6    
-    PRINT AT 5,10;"MENU PRINCIPAL";
-    PRINT AT 6,10;"--------------";
+    PRINT AT 5,10;"  MAIN MENU";
+    PRINT AT 6,10;"-------------";
     INK 5
-    PRINT AT 10,11;"1. TECLADO";
+    PRINT AT 10,11;"1. KEYBOARD";
     PRINT AT 12,11;"2. JOYSTICK";
-    PRINT AT 14,11;"0. JUGAR";
+    PRINT AT 14,11;"0. PLAY";
     
-    ' Bucle infinito
+    ' Infinite loop
     DO  
-        ' Imprime un contador en la esquina superior izquierda
-        print at 0,0;contador;"  ";
-        ' Incrementa el contador
-        contador = contador + 1
-
-        ' Comprobamos el teclado
+        ' Check the keyboard
         IF MultiKeys(KEY0) THEN
-            ' Opción Jugar
+            ' Play option
             RETURN
         ELSEIF MultiKeys(KEY1) THEN
-            ' Teclado
+            ' Keyboard
             RETURN
         ELSEIF MultiKeys(KEY2) THEN
             ' Joystick
             RETURN
         END IF
             
-        ' Espera hasta el próximo barrido de pantalla
+        ' Wait for the next screen refresh
         waitretrace
-        ' Toca la siguiente nota
+        ' Play the next note
         TheMusicBox_PlayNote()
     LOOP
 END SUB
