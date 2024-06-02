@@ -1,28 +1,31 @@
+' - Interrupt Management Library --------------------------
 
-
-SUB FASTCALL IM2_Inicializar(address AS UInteger)
+' - Initializes the interrupt engine ----------------------
+' Parameters:
+'   address (UInteger): Address to jump to at
+'                       each interrupt.
+SUB FASTCALL IM2_Initialize(address AS UInteger)
 ASM
-    push ix         ; Guardamos ix
-    ld (IM2_SubAddress),hl  ; Guardamos la dirección de salto
+    push ix             ; Save ix
+    ld (IM2_SubAddress),hl  ; Save jump address
     
-    di              ; Deshabilitamos las interrupciones
-    ld hl,IM2_Table-256 ; Dirección del final de la tabla
-    ld a,h          ; Ajustamos el valor de I al final de la tabla
+    di                  ; Disable interrupts
+    ld hl,IM2_Table-256 ; End of table address
+    ld a,h              ; Adjust I value to end of table
     ld i,a
     
-    ld hl,IM2_Tick      ; Ponemos la dirección de IM2_Tick
-    ld a,l              ; Al final de la tabla
+    ld hl,IM2_Tick      ; Set IM2_Tick address
+    ld a,l              ; At end of table
     ld (IM2_Table-1),a
     ld a,h
     ld (IM2_Table),a    
 
-    im 2            ; Ajustamos el modo de interrupción a 2
-    ei              ; Activamos las interrupciones        
-    jp IM2_Fin: ; Saltamos al final para salir
+    im 2                ; Set interrupt mode to 2
+    ei                  ; Enable interrupts
+    jp IM2_End          ; Jump to end to exit
 
-    ; Aquí saltará en cada interrupción
 IM2_Tick:
-    ; Guardamos todos los registros
+    ; Save all registers
     push af
     push hl
     push bc
@@ -36,13 +39,13 @@ IM2_Tick:
     push bc
     push de
     
-    ld hl,IM2_Tick_Fin      ; Definimos la dirección de ret
+    ld hl,IM2_Tick_End      ; Set return address
     push hl
-    ld hl,(IM2_SubAddress)  ; Saltamos a nuestra rutina
+    ld hl,(IM2_SubAddress)  ; Jump to our routine
     jp (hl)
 
-IM2_Tick_Fin:
-    ; Recuperamos todos los registros que hemos guardado
+IM2_Tick_End:
+    ; Restore all saved registers
     pop de
     pop bc
     pop hl
@@ -56,29 +59,29 @@ IM2_Tick_Fin:
     pop hl
     pop af
         
-    ei              ; Activamos las interrupciones
-    reti            ; Salimos de la interrupción
+    ei              ; Enable interrupts
+    reti            ; Return from interrupt
 
-    ; Espacio para la tabla de vectores de interrupción
-    ; Debe empezar en una dirección múltiplo de 256
+    ; Space for interrupt vector table
+    ; Must start at a multiple of 256
     
-    db 0            ; El primer valor de salto está en $ff
-    ALIGN 256       ; Alineamos a 256
+    db 0            ; First jump value is at $ff
+    ALIGN 256       ; Align to 256
 IM2_Table:
-    db 0            ; El segundo valor de salto está en $00
+    db 0            ; Second jump value is at $00
 IM2_SubAddress:
-    defw 0          ; Dirección de la subrutina a llamar
+    defw 0          ; Address of subroutine to call
     
-IM2_Fin:
-    pop ix          ; Recuperamos ix para salir
+IM2_End:
+    pop ix          ; Restore ix to exit
 END ASM
 END SUB
 
 
 SUB IM2_Stop()
 ASM
-    di              ; Deshabilitamos las interrupciones
-    im 1            ; Definimos las interrupciones IM 1
-    ei              ; Habilitamos las interrupciones
+    di              ; Disable interrupts
+    im 1            ; Set IM 1 interrupts
+    ei              ; Enable interrupts
 END ASM
 END SUB

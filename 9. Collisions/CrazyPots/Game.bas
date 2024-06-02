@@ -159,7 +159,7 @@ SUB InitializeLevel()
     Ip = 0
     Isf = 0
     
-    ' Default colors
+    ' Default colours
     PAPER 7
     INK 0
     CLS
@@ -192,7 +192,7 @@ SUB DrawAndMoveSprite()
     IF Io = 0 THEN
         ' Draw Ingrid standing still
         putChars(Ix,Iy,2,2,@Ingrid_Stand(Ip,0)) 
-        ' Fill with black color
+        ' Fill with black colour
         paint(Ix,Iy,2,2,%111000)
         ' If the subframe counter is 10...
         IF Isf = 10 THEN
@@ -216,7 +216,7 @@ SUB DrawAndMoveSprite()
     ELSEIF Io = 1 THEN
         ' Draw Ingrid walking to the right
         putChars(Ix,Iy,3,2,@Ingrid_Walk_right(Ip,0))
-        ' Fill with black color
+        ' Fill with black colour
         paint(Ix,Iy,3,2,%111000)
         ' If the frame is equal to 3...
         IF Ip = 3 THEN
@@ -240,7 +240,7 @@ SUB DrawAndMoveSprite()
         END IF
         ' Draw Ingrid walking to the left
         putChars(Ix,Iy,3,2,@Ingrid_Walk_left(Ip,0))
-        ' Fill with black color
+        ' Fill with black colour
         paint(Ix,Iy,3,2,%111000)
         ' If the frame is 3...
         IF Ip = 3 THEN
@@ -315,7 +315,7 @@ SUB DrawThings()
             y = Things(n,THING_Y)
             ' Draw the pot
             putChars(x,y,2,3,dir)
-            ' Fill with the pot's color
+            ' Fill with the pot's colour
             paint(x,y,2,3,t bOR %111000)
                         
             ' If the pot frame is 7...

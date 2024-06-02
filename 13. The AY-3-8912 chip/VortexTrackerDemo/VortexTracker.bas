@@ -1,4 +1,4 @@
-' - Módulo de reproducción de Vortex Tracker --------------
+' - Vortex Tracker Playback Module --------------------------
 
 ' - Defines -----------------------------------------------
 #DEFINE VTPLAYER_INIT $eb00
@@ -7,57 +7,54 @@
 
 
 ' - Variables ---------------------------------------------
-' Estado del reproductor, 0=parado, 1=sonando
+' Player status, 0=stopped, 1=playing
 DIM VortexTracker_Status AS UByte = 0
 
 
-' - Inicializa el motor de Vortex Tracker -----------------
-' Parámetros:
-'   usarIM2 (byte): 1 utiliza el motor de interrupciones
-'                   0 solo inicializa el motor de Vortex
-SUB VortexTracker_Inicializar(usarIM2 AS UByte)
+' - Initialize the Vortex Tracker engine -------------------
+' Parameters:
+'   usarIM2 (byte): 1 uses the interrupt engine
+'                   0 only initializes the Vortex engine
+SUB VortexTracker_Initialize(usarIM2 AS UByte)
     ASM
-        push ix             ; Guardamos ix               
-        call VTPLAYER_INIT  ; Inicializamos el motor
-        pop ix              ; Recuperamos ix
+        push ix             ; Save ix               
+        call VTPLAYER_INIT  ; Initialize the engine
+        pop ix              ; Restore ix
     END ASM
     
-    ' Si usamos interrupciones...
+    ' If using interrupts...
     IF usarIM2 = 1 THEN
-        ' Inicializamos el motor de interrupciones para
-        ' que se ejecute "VortexTracker_NextNote" en cada
-        ' interrupción
-        IM2_Inicializar(@VortexTracker_NextNote)
+        ' Initialize the interrupt engine to execute "VortexTracker_NextNote" at each interruption
+        IM2_Initialize(@VortexTracker_NextNote)
     END IF
     
-    ' Estado: 1 (sonando)
+    ' Status: 1 (playing)
     VortexTracker_Status = 1
 END SUB
 
 
-' - Toca la próxima nota de la canción --------------------
-' Se invoca de forma automática por el gestor de 
-' interrupciones. Si no usamos el gestor, se debe llamar a
-' este método cada 20ms.
+' - Play the next note of the song --------------------------
+' Automatically invoked by the interrupt manager.
+' If not using the manager, this method must be called every 20ms.
 SUB FASTCALL VortexTracker_NextNote()
-    ' Solo toca si el estado es 1 (sonando)
+    ' Play only if the status is 1 (playing)
     if VortexTracker_Status = 1 THEN
         ASM
-            push ix                 ; Guardamos ix          
-            call VTPLAYER_NEXTNOTE  ; Reproducimos una nota
-            pop ix                  ; Recuperamos ix
+            push ix                 ; Save ix          
+            call VTPLAYER_NEXTNOTE  ; Play a note
+            pop ix                  ; Restore ix
         END ASM
     end if
 END SUB
 
 
-' - Detiene la reproducción de la música ------------------
+' - Stop music playback -------------------------------------
 SUB VortexTracker_Stop()
-    ' Estado igual a 0 (detenido)
+    ' Status equals 0 (stopped)
     VortexTracker_Status = 0
     ASM
-        push ix             ; Guardamos ix
-        call VTPLAYER_MUTE  ; Bajamos el volumen a 0
-        pop ix              ; Recuperamos ix
+        push ix             ; Save ix
+        call VTPLAYER_MUTE  ; Set volume to 0
+        pop ix              ; Restore ix
     END ASM
 END SUB

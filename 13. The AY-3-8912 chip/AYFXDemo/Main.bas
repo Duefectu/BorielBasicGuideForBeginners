@@ -1,5 +1,5 @@
 ' - AYFXDemo ----------------------------------------------
-' https://tinyurl.com/2hm63pdt
+' https://tinyurl.com/5fte6kft
 
 Main()
 STOP
@@ -11,43 +11,43 @@ STOP
 #INCLUDE "AYFXPlayer.bas"
 
 
-' - Banco de efectos --------------------------------------
-BancoEfectos:
+' - Effects Bank -------------------------------------------
+EffectsBank:
 ASM
     incbin "test.afb"
 END ASM
 
 
-' - Subrutina principal -----------------------------------
+' - Main Subroutine ----------------------------------------
 SUB Main()
-    DIM numeroS AS String
+    DIM effectNumber AS String
     DIM n AS UByte
 
-    ' Inicializa el motor de efectos de sonido
-    AYFX_Init(@BancoEfectos)
+    ' Initialize the sound effects engine
+    AYFX_Init(@EffectsBank)
 
-    ' Bucle infinito
+    ' Infinite loop
     DO
-        ' Borramos la pantalla
+        ' Clear the screen
         CLS
-        ' Imprimimos la pantalla
+        ' Print the screen
         PRINT AT 0,14;"AYFX Demo";
-        PRINT AT 2,0;"Numero de efecto: ";
-        ' Pedimos al usuario el código del efecto
-        numeroS = input(3)
-        ' Iniciamos la reproducción del efecto
-        AYFX_Play(VAL(numeroS))
+        PRINT AT 2,0;"Effect number: ";
+        ' Ask the user for the effect code
+        effectNumber = input(3)
+        ' Start playing the effect
+        AYFX_Play(VAL(effectNumber))
 
-        ' Para reproducir el efecto hay que llamar a
-        ' AYFX_PlayFrame cada 20ms o en cada interrupción
-        PRINT AT 4,0;"Reproduciendo efecto: ";numeroS;
-        ' Reproduciremos los 128 primeros pasos del sonido
+        ' To play the effect, you need to call
+        ' AYFX_PlayFrame every 20ms or on each interrupt
+        PRINT AT 4,0;"Playing effect: ";effectNumber;
+        ' We will play the first 128 steps of the sound
         FOR n = 0 TO 127
-            ' Imprimimos el contador
+            ' Print the counter
             PRINT AT 4,25;n;
-            ' Esperamos una interrupción
+            ' Wait for an interrupt
             waitretrace
-            ' Ejecutamos el paso actual
+            ' Execute the current step
             AYFX_PlayFrame()
         NEXT n
     LOOP

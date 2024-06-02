@@ -35,7 +35,7 @@ SUB Initialize()
     NextReg($07, 3)
     ' Set priorities: Sprites -> ULA -> Layer2
     NextReg($15, %00001001)
-    ' Transparent color for the ula (magenta with brightness)
+    ' Transparent colour for the ula (magenta with brightness)
     NextReg($14, 231)
 
     ' Print in the ULA layer
@@ -53,7 +53,7 @@ SUB Initialize()
 END SUB
 
 
-' - Layer 2 demo, 256x192 with 256 colors -------------
+' - Layer 2 demo, 256x192 with 256 colours -------------
 SUB Layer2_256x192()
     DIM x, y AS UInteger
     DIM t AS UByte
@@ -62,9 +62,9 @@ SUB Layer2_256x192()
     ShowLayer2(1)
 
     ' Print the layer name on the ULA
-    PRINT AT 23, 0; "Layer 2: 256x192, 256 colors";
+    PRINT AT 23, 0; "Layer 2: 256x192, 256 colours";
 
-    ' Fill the screen with color 2 (blue)
+    ' Fill the screen with colour 2 (blue)
     CLS256(2)
     ' We will draw 16 tiles wide
     FOR x = 0 TO 15

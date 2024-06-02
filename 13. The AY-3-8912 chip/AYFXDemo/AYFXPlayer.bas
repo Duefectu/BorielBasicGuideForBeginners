@@ -1,53 +1,49 @@
 ' - AYFXDemo ----------------------------------------------
-' Motor de reproducción AYFX (ver atribuciones en los
-' comentarios del código)
+' AYFX Playback Engine (see attributions in the code comments)
 
-
-' - Reproduce un efecto -----------------------------------
-' Busca un canal libre para reproducirlo
-' Empieza a reproducir el efecto, debe continuarse con
-' llamadas a AYFX_PlayFrame cada 20ms (una interrupción)
-' Parámetros:
-'   codigoEfecto (UByte): código del efecto a reproducir
-SUB AYFX_Play(codigoEfecto AS UByte)
+' - Play Effect ---------------------------------------------
+' Finds a free channel to play the effect
+' Starts playing the effect, should be continued with
+' calls to AYFX_PlayFrame every 20ms (one interrupt)
+' Parameters:
+'   effectCode (UByte): code of the effect to play
+SUB AYFX_Play(effectCode AS UByte)
     ASM
-        ; Guardamos IX
+        ; Save IX
         push ix
-        ; Ejecutamos AFXPLAY, en A está codigoEfecto
+        ; Execute AFXPLAY, with effectCode in A
         call AFXPlay
-        ; Recuperamos IX
+        ; Restore IX
         pop ix
     END ASM
 END SUB
 
-
-' - Ejecuta un paso del efecto que se está reproduciendo --
-' Debe llamarse cada 20ms (una interrupción)
+' - Play a Frame of the Playing Effect ----------------------
+' Should be called every 20ms (one interrupt)
 SUB AYFX_PlayFrame()
     ASM
-        ; Guardamos IX
+        ; Save IX
         push ix
-        ; Reprucimos un paso del sonido
+        ; Play a step of the sound
         call AFXFrame
-        ; Recuperamos IX
+        ; Restore IX
         pop ix
     END ASM
 END SUB
 
-
-' - Inicializa el motor del reproductor de efectos --------
-' Parámetros:
-'   dirEfectos (UInteger): Dirección del banco de efectos
-SUB AYFX_Init(dirEfectos AS UInteger)
+' - Initialize the Effect Player Engine ---------------------
+' Parameters:
+'   effectsAddr (UInteger): Address of the effects bank
+SUB AYFX_Init(effectsAddr AS UInteger)
     ASM
-        ; Guardamos IX 
-        push ix
-        ; Cargamos en HL el valor de dirEfectos
+        ; Save IX 
+        push ix 
+        ; Load HL with the value of effectsAddr
         ld h,[ix+5]
         ld l,[ix+4]
-        ; Inicializamos el motor
+        ; Initialize the engine
         call AFXInit
-        ; Recuperamos IX
+        ; Restore IX
         pop ix
     END ASM
     

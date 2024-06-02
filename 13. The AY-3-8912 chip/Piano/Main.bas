@@ -1,23 +1,23 @@
 ' - Piano -------------------------------------------------
-' https://tinyurl.com/yh24726f
+' https://tinyurl.com/898s89d7
 
 Main()
 STOP
 
 
 ' - Includes ----------------------------------------------
-' Librerías de Boriel
+' Boriel Libraries
 #INCLUDE <keys.bas>
-' Recursos
+' Resources
 #INCLUDE "Piano.fnt.bas"
-#INCLUDE "Ondas.udg.bas"
+#INCLUDE "Waves.udg.bas"
 
 
 ' - Defines -----------------------------------------------
-' Puertos del chip AY-3-8912
+' AY-3-8912 chip ports
 #DEFINE AY_CONTROL 65533
 #DEFINE AY_DATA 49149
-' Registros del chip AY-3-8912
+' AY-3-8912 chip registers
 #DEFINE AY_A_FINEPITCH 0
 #DEFINE AY_A_COURSEPITCH 1
 #DEFINE AY_B_FINEPITCH 2
@@ -37,9 +37,8 @@ STOP
 
 
 ' - Variables ---------------------------------------------
-' Frecuencias de las notas musicales
-dim Music_Notas(59,1) as UByte => { _
-_                       ' Nota Frec Id
+' Musical notes frequencies
+DIM Music_Notes(59,1) AS UByte => { _
     { $06, $af }, _     ' C2   1711 0
     { $06, $4e }, _     ' C#2  1614 1
     { $05, $f4 }, _     ' D2   1524 2
@@ -105,189 +104,188 @@ _
     { $00, $3c }, _     ' A#6  60   58
     { $00, $39 } _      ' B6   57   59  
 }
-' Teclas del teclado del piano
-DIM Teclas(23) AS UInteger => { _
+' Piano keyboard keys
+DIM Keys(23) AS UInteger => { _
     KEYZ, KEYS, KEYX, KEYD, KEYC, KEYV, _
     KEYG, KEYB, KEYH, KEYN, KEYJ, KEYM, _
     KEYQ, KEY2, KEYW, KEY3, KEYE, KEYR, _
     KEY5, KEYT, KEY6, KEYY, KEY7, KEYU _
 }
-' Nombres de las notas
-DIM Notacion(12) AS String
-' Dibujo del tipo de onda del chip AY-3-8912
-DIM TiposOndas(8) AS String
-' Identificador del tipo de onda en el chip AY-3-8912
-DIM IdsOndas(8) AS UByte => { 255,0,4,8,10,11,12,13,14 }
-' Nota y octava actuales y número de teclas pulsadas
-DIM nota, octava, numNotas AS UByte
-' Volumen, copia del mismo, forma de onda e instrumento
-DIM volumen, volumen2, onda, tipo AS UByte
-' Corta los rebotes de las pulsaciones de teclas
-DIM rOctava, rVolumen, rOnda, rFrecuencia, rTipo AS UByte
-' Se ha modificado el volumen
-DIM mVolumen AS UByte
-' Se pueden tocar hasta tres notas al mismo tiempo
-DIM notas(2) AS UByte
-' Frecuencia de oscilación de la forma de onda
-DIM frecuencia AS UInteger
+' Note names
+DIM notetion(12) AS String
+' AY-3-8912 chip waveform types
+DIM waveTypes(8) AS String
+' AY-3-8912 chip waveform type identifiers
+DIM WaveIds(8) AS UByte => { 255,0,4,8,10,11,12,13,14 }
+' Current note and octave, and number of pressed keys
+DIM note, octave, numNotes AS UByte
+' Volume, copy of volume, waveform, and instrument
+DIM volume, volume2, wave, type AS UByte
+' Prevents key bounce
+DIM rOctave, rVolume, rWave, rFrequency, rType AS UByte
+'   Volume has been modified
+DIM mVolume AS UByte
+' Up to three notes can be played simultaneously
+DIM notes(2) AS UByte
+' Waveform oscillation frequency
+DIM frequency AS UInteger
 
 
-' - Módulos adicionales -----------------------------------
-#INCLUDE "ControlTeclado.bas"
+' - Additional Modules -----------------------------------
+#INCLUDE "Keyboard.bas"
 
 
-' - Subrutina principal -----------------------------------
+' - Main Subroutine -----------------------------------
 SUB Main()
-    ' Variables temporales
-    DIM n, m, o, f1, f2, fo1, fo2, canal AS UByte
+    ' Temporary variables
+    DIM n, m, o, f1, f2, fo1, fo2, channel AS UByte
     
-    ' Inicializamos el sistema
-    Inicializar()
+    ' Initialize the system
+    Initialize()
         
-    ' Inicializamos el mezclador
+    ' Initialize the mixer
     AYReg(AY_MIXER,%00111000)
-    ' Ajustamos los volumenes de los canales
-    AYReg(AY_A_VOLUME,15)   ' Volumen al máximo
-    AYReg(AY_B_VOLUME,15)   ' Volumen al máximo
-    AYReg(AY_C_VOLUME,15)   ' Volumen al máximo
+    ' Adjust channel volumes
+    AYReg(AY_A_VOLUME,15)   ' Maximum volume
+    AYReg(AY_B_VOLUME,15)   ' Maximum volume
+    AYReg(AY_C_VOLUME,15)   ' Maximum volume
     
-    ' Octava inicial menos 2
-    octava = 0
-    ' Volumen inicial
-    volumen = 15
-    ' Copia del volumen
-    volumen2 = 15
-    ' Forma de onda plana
-    onda = 0
-    ' Frecuencia por defecto
-    frecuencia = 10
+    ' Initial octave minus 2
+    octave = 0
+    ' Initial volume
+    volume = 15
+    ' Volume copy
+    volume2 = 15
+    ' Flat waveform
+    wave = 0
+    ' Default frequency
+    frequency = 10
     
-    ' Bucle infinito
+    ' Infinite loop
     DO
-        ' Partimos de 0 teclas/notas
-        numNotas = 0
-        ' Escaneamos todas las teclas posibles
+        ' Start with 0 keys/notes
+        numNotes = 0
+        ' Scan all possible keys
         FOR n = 0 TO 23
-            ' Se ha pulsado la tecla...
-            IF Multikeys(Teclas(n)) <> 0 THEN
-                ' Añadimos la nota a "notas"
-                notas(numNotas) = (octava * 12) + n
-                ' Si ya tenemos tres notas...
-                IF numNotas = 3 THEN
-                    ' No queremos más notas
+            ' Key pressed...
+            IF Multikeys(Keys(n)) <> 0 THEN
+                ' Add the note to "notes"
+                notes(numNotes) = (octave * 12) + n
+                ' If we already have three notes...
+                IF numNotes = 3 THEN
+                    ' Don't want more notes
                     EXIT FOR
-                ' Si no tenemos tres notas...
+                ' If we don't have three notes yet...
                 ELSE
-                    ' Incrementamos el contador de notas
-                    numNotas = numNotas + 1
+                    ' Increment the note counter
+                    numNotes = numNotes + 1
                 END IF
             END IF
         NEXT n
         
-        ' Controlamos las opciones superiores (octava, 
-        ' volumen, forma de onda, etc...
-        ControlTeclado() 
+        ' Control the upper options (octave, volume, waveform, etc...)
+        ControlKeyboard() 
         
-        ' Si hay definida una forma de onda...
-        IF onda <> 0 THEN
-            ' Si el volumen no es 16...
-            IF volumen <> 16 THEN
-                ' Saca una copia del volumen actual
-                volumen2 = volumen
-                ' Pon el volumen a 16
-                volumen = 16
-                ' Marca de volumen modificado
-                mVolumen = 1
+        ' If a waveform is defined...
+        IF wave <> 0 THEN
+            ' If the volume is not 16...
+            IF volume <> 16 THEN
+                ' Make a copy of the current volume
+                volume2 = volume
+                ' Set the volume to 16
+                volume = 16
+                ' Mark volume as modified
+                mVolume = 1
             END IF
         END IF
 
-        ' Actualizamos la información en pantalla
-        ' Octava actual
-        PRINT AT 2,16;(octava + 2);
-        ' Si no hay forma de onda seleccionada...
-        IF onda = 0 THEN
-            ' Se muestra el volumen
-            PRINT AT 3,16;volumen;" ";
-            ' No se muestra la frecuencia de la onda
+        ' Update information on screen
+        ' Current octave
+        PRINT AT 2,16;(octave + 2);
+        ' If no waveform is selected...
+        IF wave = 0 THEN
+            ' Display volume
+            PRINT AT 3,16;volume;" ";
+            ' Don't display waveform frequency
             PRINT AT 5,16;"-    ";
-        ' Si hay una forma de onda seleccionada...
+        ' If a waveform is selected...
         ELSE
-            ' No se muestra el volumen
+            ' Don't display volume
             PRINT AT 3,16;"- ";
-            ' Se muestra la frecuencia de la onda
-            PRINT AT 5,16;frecuencia;" ";
+            ' Display waveform frequency
+            PRINT AT 5,16;frequency;" ";
         END IF
         
-        ' Mostramos el tipo de onda seleccionada
-        PRINT AT 4,16;TiposOndas(onda);
+        ' Display the selected waveform type
+        PRINT AT 4,16;waveTypes(wave);
 
-        ' Imprimimos el tipo de intrumento usado 
-        IF tipo = 0 THEN
-            PRINT AT 6,16;"Tono ";
-        ELSEIF tipo = 1 THEN
-            PRINT AT 6,16;"Ruido";
+        ' Print the instrument type used 
+        IF type = 0 THEN
+            PRINT AT 6,16;"Tone ";
+        ELSEIF type = 1 THEN
+            PRINT AT 6,16;"Noise";
         ELSE
-            PRINT AT 6,16;"T + R";
+            PRINT AT 6,16;"T + N";
         END IF
 
-        ' Se ha modificado el volumen o hay una forma de onda
-        IF mVolumen <> 0 OR onda <> 0 THEN
-            ' Ajustamos el volumen
-            AYReg(AY_A_VOLUME,volumen)
-            AYReg(AY_B_VOLUME,volumen)
-            AYReg(AY_C_VOLUME,volumen)
-            ' Reseteamos el flag de volumen modificado
-            mVolumen = 0
-            ' Ajustamos el mezclador de volumen
-            IF tipo = 0 THEN
-                ' Solo tono
+        ' Volume has been modified or there's a waveform
+        IF mVolume <> 0 OR wave <> 0 THEN
+            ' Adjust volume
+            AYReg(AY_A_VOLUME,volume)
+            AYReg(AY_B_VOLUME,volume)
+            AYReg(AY_C_VOLUME,volume)
+            ' Reset volume modified flag
+            mVolume = 0
+            ' Adjust volume mixer
+            IF type = 0 THEN
+                ' Tone only
                 AYReg(AY_MIXER,%00111000)
-            ELSEIF tipo = 1 THEN
-                ' Solo ruido
+            ELSEIF type = 1 THEN
+                ' Noise only
                 AYReg(AY_MIXER,%00000111)
             ELSE
-                ' Tono + ruido
+                ' Tone + Noise
                 AYReg(AY_MIXER,%00111111)
             END IF
         END IF
         
-        ' Reproducimos las notas --------------------------
-        ' Tres notas como máximo
+        ' Play notes --------------------------
+        ' Up to three notes
         FOR n = 1 TO 3
-            ' El canal es igual a contador n - 1
-            canal = n - 1           
-            ' Si ya hemos reproducido todas las notas...
-            IF n>numNotas THEN
-                ' Imprimimos un "-" en la info del canal
+            ' Channel equals counter n - 1
+            channel = n - 1           
+            ' If all notes have been played...
+            IF n>numNotes THEN
+                ' Print "-" on channel info
                 PRINT AT n+7,16;"-  ";
-                ' Silenciamos el canal con una nota 0
-                AYReg(AY_A_COURSEPITCH+(canal*2),0)
-                AYReg(AY_A_FINEPITCH+(canal*2),0) 
-            ' Si aún quedan notas para reproducir...
+                ' Silence the channel with note 0
+                AYReg(AY_A_COURSEPITCH+(channel*2),0)
+                AYReg(AY_A_FINEPITCH+(channel*2),0) 
+            ' If there are still notes to play...
             ELSE
-                ' Nota actual
-                nota = notas(canal)
-                ' Obtenemos la frecuencia de la nota
-                f1 = Music_Notas(nota,0)
-                f2 = Music_Notas(nota,1)
-                ' Calculamos la octava de la nota
-                o = INT(nota/12)+2
-                ' Imprimimos la nota y la octava
-                PRINT AT n+7,16;Notacion(nota MOD 12);o;" "; 
+                ' Current note
+                note = notes(channel)
+                ' Get the note's frequency
+                f1 = Music_Notes(note,0)
+                f2 = Music_Notes(note,1)
+                ' Calculate the note's octave
+                o = INT(note/12)+2
+                ' Print the note and octave
+                PRINT AT n+7,16;notetion(note MOD 12);o;" "; 
 
-                ' Hacemos sonar la nota
-                AYReg(AY_A_COURSEPITCH+(canal*2),f1)
-                AYReg(AY_A_FINEPITCH+(canal*2),f2)   
+                ' Play the note
+                AYReg(AY_A_COURSEPITCH+(channel*2),f1)
+                AYReg(AY_A_FINEPITCH+(channel*2),f2)   
                 
-                ' Si el volumen es 16, usamos onda...
-                IF volumen = 16 THEN
-                    ' Programamos la forma de la onda
-                    AYReg(AY_ENVELOPE_SHAPE,IdsOndas(onda))
-                    ' Byte alto de la frecuencia
-                    fo1= frecuencia >> 8
-                    ' Byte bajo de la frecuencua
-                    fo2= frecuencia bAND $00ff
-                    ' Programamos la frecuencia de la onda
+                ' If the volume is 16, use waveform...
+                IF volume = 16 THEN
+                    ' Program the waveform
+                    AYReg(AY_ENVELOPE_SHAPE,WaveIds(wave))
+                    ' High byte of frequency
+                    fo1= frequency >> 8
+                    ' Low byte of frequency
+                    fo2= frequency bAND $00ff
+                    ' Program the waveform's frequency
                     AYReg(AY_ENVELOPE_COURSE,fo1)
                     AYReg(AY_ENVELOPE_FINE,fo2)
                 END IF
@@ -297,56 +295,56 @@ SUB Main()
 END SUB
 
 
-' - Inicializa el sistema ---------------------------------
-SUB Inicializar()
-    ' Texto de cada una de las notas
-    Notacion(0)="C"
-    Notacion(1)="C#"
-    Notacion(2)="D"
-    Notacion(3)="D#"
-    Notacion(4)="E"
-    Notacion(5)="F"
-    Notacion(6)="F#"
-    Notacion(7)="G"
-    Notacion(8)="G#"
-    Notacion(9)="A"
-    Notacion(10)="A#"
-    Notacion(11)="B"
+' - Initialize the system ---------------------------------
+SUB Initialize()
+    ' Text for each note
+    notetion(0)="C"
+    notetion(1)="C#"
+    notetion(2)="D"
+    notetion(3)="D#"
+    notetion(4)="E"
+    notetion(5)="F"
+    notetion(6)="F#"
+    notetion(7)="G"
+    notetion(8)="G#"
+    notetion(9)="A"
+    notetion(10)="A#"
+    notetion(11)="B"
     
-    ' Ajustamos los GDUs para que apunten a Ondas
-    POKE (uinteger 23675, @Ondas)
+    ' Adjust GDUs to point to waves
+    POKE (uinteger 23675, @Waves)
     
-    ' Definimos los tipos de onda del chip AY
-    TiposOndas(0)="\G\G\G\G"
-    TiposOndas(1)="\A\B\B\B"
-    TiposOndas(2)="\D\B\B\B"
-    TiposOndas(3)="\E\E\E\E"
-    TiposOndas(4)="\A\F\A\F"
-    TiposOndas(5)="\E\C\C\C"
-    TiposOndas(6)="\D\D\D\D"
-    TiposOndas(7)="\F\C\C\C"
-    TiposOndas(8)="\F\A\F\A"
+    ' Define AY chip waveform types
+    waveTypes(0)="\G\G\G\G"
+    waveTypes(1)="\A\B\B\B"
+    waveTypes(2)="\D\B\B\B"
+    waveTypes(3)="\E\E\E\E"
+    waveTypes(4)="\A\F\A\F"
+    waveTypes(5)="\E\C\C\C"
+    waveTypes(6)="\D\D\D\D"
+    waveTypes(7)="\F\C\C\C"
+    waveTypes(8)="\F\A\F\A"
     
-    ' Dibujamos el teclado del piano
-    DibujarTeclado()    
+    ' Draw piano keyboard
+    DrawKeyboard()    
     
-    ' Dibujamos el texto fijo de los indicadores
+    ' Draw fixed text for indicators
     PRINT AT 0,15;INK 1;"PIANO";
-    PRINT AT 2,0;"       Octava :          (0-9)";
-    PRINT AT 3,0;"      Volumen :          (O-P)";
-    PRINT AT 4,0;"         Onda :          (K-L)";
-    PRINT AT 5,0;"   Frecuencia :       (O-P-CS)";
-    PRINT AT 6,0;"  Instrumento :            (1)";
-    PRINT AT 8,0;"      Canal A :";
-    PRINT AT 9,0;"      Canal B :";
-    PRINT AT 10,0;"      Canal C :";
+    PRINT AT 2,0;"       Octave :          (0-9)";
+    PRINT AT 3,0;"       Volume :          (O-P)";
+    PRINT AT 4,0;"         Wave :          (K-L)";
+    PRINT AT 5,0;"    Frequency :       (O-P-CS)";
+    PRINT AT 6,0;"   Instrument :            (1)";
+    PRINT AT 8,0;"    Channel A :";
+    PRINT AT 9,0;"    Channel B :";
+    PRINT AT 10,0;"    Channel C :";
 END SUB
 
 
-SUB DibujarTeclado()
-    ' Usamos la fuente piano
+SUB DrawKeyboard()
+    ' Use piano font
     POKE (uinteger 23606, @Piano-256)
-    ' Imprimimos las teclas del piano (ver Piano.fnt)
+    ' Print piano keys (see Piano.fnt)
     PRINT AT 13,1;"af$l$kaf$l$l$kaf$l$kaf$l$l$ka";
     PRINT AT 14,1;"amnopkaqrstuvkamnopkaqrstuvka";
     PRINT AT 15,1;"afSlDkafGlHlJkaf2l3kaf5l6l7ka";
@@ -355,16 +353,19 @@ SUB DibujarTeclado()
     PRINT AT 18,1;"awaxayaza{a|a}awaxayaza{a|a}a";
     PRINT AT 19,1;"aZaXaCaVaBaNaMaQaWaEaRaTaYaUa";
     PRINT AT 20,1;"bcdcdcdcdcdcdcdcdcdcdcdcdcdce";
-    ' Restauramos la fuente por defecto
+    ' Restore default font
     POKE (uinteger 23606, $3c00)
 END SUB
 
 
-' - Envia un valor al registro AY indicado ----------------
-' Parámetros:
-'   registro (UByte): Registro a modificar
-'   valor (UByte): Valor a guardar en el registro
-SUB AYReg(registro AS UByte, valor AS UBYTE)
-    OUT AY_CONTROL,registro
-    OUT AY_DATA,valor
+' - Sends a value to the specified AY register ------------
+' Parameters:
+'   register (UByte): Register to modify
+'   value (UByte): Value to store in the register
+SUB AYReg(register AS UByte, value AS UBYTE)
+    OUT AY_CONTROL,register
+    OUT AY_DATA,value
 END SUB
+
+
+

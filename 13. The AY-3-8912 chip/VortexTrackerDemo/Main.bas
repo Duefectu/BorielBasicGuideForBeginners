@@ -1,7 +1,7 @@
 ' - VortexTrackerDemo -------------------------------------
-' https://tinyurl.com/mrx4whj9
+' https://tinyurl.com/mrye2ua8
 
-' Ejecutamos la subrutina principal
+' Run the main subroutine
 Main()
 Stop
 
@@ -13,31 +13,30 @@ Stop
 
 
 ' - Variables ---------------------------------------------
-' Caché de coordenadas para la explosión
+' Coordinate cache for the explosion
 DIM cacheX(96) AS UByte
 DIM cacheY(96) AS UByte
-' Número de coordenadas que se han cacheado
+' Number of cached coordinates
 DIM max AS UByte
 
 
-' - Subrutina principal -----------------------------------
+' - Main Subroutine ----------------------------------------
 SUB Main()
-    ' Inicializar el sistema
-    Inicializar()
+    ' Initialize the system
+    Initialize()
        
     DO
-        ' Lanzar fuegos artificiales como si no hubiese
-        ' un mañana
+        ' Launch fireworks as if there were no tomorrow
         FireWork()
     LOOP
 END SUB
 
 
-' - Inicializa el sistema ---------------------------------
-SUB Inicializar()   
-    ' Carga el player
+' - Initialize the system ---------------------------------
+SUB Initialize()   
+    ' Load the player
     LOAD "" CODE
-    ' carga la canción
+    ' Load the song
     LOAD "" CODE
     
     BORDER 0
@@ -45,30 +44,30 @@ SUB Inicializar()
     INK 6
     BRIGHT 1
     
-    ' Inicializamos la música
-    VortexTracker_Inicializar(1)
+    ' Initialize the music
+    VortexTracker_Initialize(1)
 
     CLS
 
-    ' Cachear explosión
-    PRINT AT 0,0;"Contando estrellas..";    
-    ' Se calculan los puntos que dibujarán la explosión.
-    ' Todas las explosiones son iguales, así que basta
-    ' calcularlo una vez, y así aceleramos.
-    ' Contador
+    ' Cache explosion
+    PRINT AT 0,0;"Counting stars...";    
+    ' Calculate the points that will draw the explosion.
+    ' All explosions are the same, so it's enough
+    ' to calculate it once, thus speeding up.
+    ' Counter
     DIM c AS UByte = 0
-    ' Módulos y ángulos de la explosión    
+    ' Modules and angles of the explosion    
     DIM a, m AS Fixed
-    ' Coordenadas en pantalla
+    ' Screen coordinates
     DIM x, y AS Fixed
-    ' Módulo de 0 a 3.14 radianes
+    ' Module from 0 to 3.14 radians
     FOR a = 0 TO 3.14 STEP .2
-        ' Ángulo de .4 a 6.14 radianes
+        ' Angle from .4 to 6.14 radians
         FOR m = .4 TO 6.14 STEP 1.2
-            ' Calculamos la coordenada X e Y del punto
+            ' Calculate the X and Y coordinate of the point
             x = 128 + (COS(m)*a*10)
             y = 96 + (SIN(m)*a*10) + (SIN(a) * 10)
-            ' Guardamos el punto en el caché
+            ' Save the point in the cache
             cacheX(c)=x
             cacheY(c)=y
             c=c+1
@@ -79,35 +78,35 @@ SUB Inicializar()
 END SUB
 
 
-' - Lanza un fuego artificial -----------------------------
+' - Launch a firework --------------------------------------
 SUB FireWork()
-    ' Coordenada X desde donde se lanza
+    ' X coordinate from where it launches
     DIM xi AS Integer
-    ' Coordenadas de trabajo
+    ' Working coordinates
     DIM x, y, lx, ly AS Integer
-    ' Color del fuego
+    ' Fire color
     DIM i AS UByte
-    ' Contador para la explosión
+    ' Explosion counter
     DIM c AS UByte
-    ' Ángulo y módulo 
+    ' Angle and module 
     DIM a, m AS Fixed    
     
-    ' Crea el fuego artificial
-    ' Coordenada X inicial
+    ' Create the firework
+    ' Initial X coordinate
     xi = (RND * 128) + 50
-    ' Módulo (altura) del fuego
+    ' Module (height) of the firework
     m = (RND * 100) + 64
-    ' Color del fuego
+    ' Fire color
     i = (RND * 7)+1
-    ' Reseteamos el resto
+    ' Reset the rest
     a = 0
     lx = 0
     ly = 0
     
-    ' Lanzamos el cohete
+    ' Launch the rocket
     CLS
     INK i
-    ' Dibuja un arco ascendente borrando la estela
+    ' Draw an ascending arc erasing the trail
     FOR a = 0 TO 1.57 STEP .05
         x = xi+(a*20)
         y = SIN(a) * m
@@ -117,11 +116,11 @@ SUB FireWork()
         ly = y
     NEXT a
     
-    ' Explota utilizando los datos cacheados
+    ' Explode using cached data
     FOR c=0 TO max
-        ' Dibuja los puntos
+        ' Draw the points
         PLOT lx-128+cacheX(c),ly-96+cacheY(c)
-        ' Pausa de 20ms
+        ' Pause for 20ms
         waitretrace
     NEXT c
     CLS

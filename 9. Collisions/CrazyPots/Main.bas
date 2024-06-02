@@ -61,7 +61,7 @@ END SUB
 
 ' - Initialize the system --------------------------------
 SUB Initialize()
-    ' Adjust colors and clear the screen
+    ' Adjust colours and clear the screen
     BORDER 1
     PAPER 7
     INK 0

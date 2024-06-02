@@ -72,13 +72,13 @@ FUNCTION Scoreboard_UpdateFlowerpots() AS UByte
     FOR n = 0 TO 7
         ' If the pot has not been collected...
         IF FlowerpotsSequence(n,1) = 0 THEN
-            ' Color it with PAPER 7 and INK 3
+            ' Colour it with PAPER 7 and INK 3
             paint(x,19,4,5,%111011)
             ' One more pot remaining to collect
             remaining = remaining + 1
         ' If the pot has been collected...
         ELSE
-            ' Color with BRIGHT 1, PAPER 7 and INK 1
+            ' Colour with BRIGHT 1, PAPER 7 and INK 1
             paint(x,19,4,5,%1111001)
         END IF
         ' The next pot is 4 cells to the right
