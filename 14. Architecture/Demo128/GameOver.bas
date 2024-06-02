@@ -1,52 +1,51 @@
 ' - Demo128 -----------------------------------------------
-' https://tinyurl.com/55jh39x5
-' - Módulo GameOver ---------------------------------------
-' Parametro1: No usado
-' Parametro2: No usado
+' - Game Over Module ---------------------------------------
+' Parameter1: Not used
+' Parameter2: Not used
 
 
 GameOver()
 STOP
 
 
-' - Includes ----------------------------------------------
+' - Includes ------------------------------------------------
 #INCLUDE "Vars.bas"
 
 
-' - Game Over ---------------------------------------------
+' - Game Over ------------------------------------------------
 SUB GameOver()
-    ' Borramos la pantalla
+    ' Clear the screen
     BORDER 3
     PAPER 0
     INK 2
     CLS
     
-    ' Esperamos a que no se pulse ninguna tecla
+    ' Wait for no key to be pressed
     WHILE INKEY$ <> ""
     WEND
     
-    ' Imprimimos el texto y la puntuación
+    ' Print the text and the score
     PRINT AT 5,10;"GAME OVER!"
-    PRINT AT 10,5;"Puntuacion: ";Puntos;
+    PRINT AT 10,5;"Score: ";Points;
     
-    ' Si no se ha superado el record...
-    IF Record > Puntos THEN
-        ' Imprimimos el record
-        PRINT AT 15,5;"Record: ";Record;
-    ' Si se ha superado el record...
+    ' If the high score has not been beaten...
+    IF HighScore > Points THEN
+        ' Print the high score
+        PRINT AT 15,5;"High Score: ";HighScore;
+    ' If the high score has been beaten...
     ELSE
-        ' Actualizamos el record
-        Record = Puntos
-        ' Informamos de la gesta al jugador
-        PRINT AT 15,5;"Nuevo record!!!";
+        ' Update the high score
+        HighScore = Points
+        ' Inform the player of the achievement
+        PRINT AT 15,5;"New High Score!!!";
     END IF
 
-    ' Esperamos a que se pulse una tecla
+    ' Wait for a key to be pressed
     WHILE INKEY$ = ""
     WEND
     
-    ' Regresamos al menú del juego
-    ModuloAEjecutar = MODULO_MENU
-    Parametro1 = 0
-    Parametro2 = 0
+    ' Return to the game menu
+    ModuleToExecute = MODULE_MENU
+    Parameter1 = 0
+    Parameter2 = 0
 END SUB

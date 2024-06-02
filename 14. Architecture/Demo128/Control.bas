@@ -1,66 +1,66 @@
 ' - Demo128 -----------------------------------------------
-' https://tinyurl.com/55jh39x5
-' - Módulo de control -------------------------------------
+' https://tinyurl.com/wxm7tcfr
+' - Control Module -----------------------------------------
 
 Main()
 STOP
 
 
-' - Zona de variables comunes -----------------------------
-VariablesComunes:
+' - Common Variables Area -----------------------------------
+CommonVariables:
 ASM
     DEFS 1024
 END ASM
 
 
-' - Includes ----------------------------------------------
+' - Includes ------------------------------------------------
 #INCLUDE <memcopy.bas>
 #INCLUDE "Vars.bas"
 
 
-' - Subrutina principal de control ------------------------
+' - Main control subroutine ---------------------------------
 SUB Main()
-    ' Cargamos el resto de módulos desde cinta
-    CargarModulos()
+    ' Load the rest of modules from tape
+    LoadModules()
     
-    ' Definimos el siguiente módulo a ejecutar
-    ModuloAEjecutar = MODULO_MENU
-    Parametro1 = 0
-    Parametro2 = 0
-    ' Bucle infinito
+    ' Define the next module to execute
+    ModuleToExecute = MODULE_MENU
+    Parameter1 = 0
+    Parameter2 = 0
+    ' Infinite loop
     DO
-        ' Ejecutamos el módulo seleccionado
-        EjecutarModulo(ModuloAEjecutar)
+        ' Execute the selected module
+        ExecuteModule(ModuleToExecute)
     LOOP
 END SUB
 
 
-' - Carga los módulos y recursos adicionales --------------
-SUB CargarModulos()
-    ' Módulo de menú
-    PaginarMemoria(MODULO_MENU)
+' - Load modules and additional resources -------------------
+SUB LoadModules()
+    ' Menu module
+    SwitchMemoryBank(MODULE_MENU)
     LOAD "" CODE $c000
-    ' Módulo de juego
-    PaginarMemoria(MODULO_JUEGO)
+    ' Game module
+    SwitchMemoryBank(MODULE_GAME)
     LOAD "" CODE $c000
-    ' Módulo de minijuegos
-    PaginarMemoria(MODULO_MINIJUEGOS)
+    ' Minigames module
+    SwitchMemoryBank(MODULE_MINIGAMES)
     LOAD "" CODE $c000
-    ' Módulo de Game Over
-    PaginarMemoria(MODULO_GAMEOVER)
+    ' Game Over module
+    SwitchMemoryBank(MODULE_GAMEOVER)
     LOAD "" CODE $c000
-    ' TODO: Cargar recursos gráficos, música, etc...
+    ' TODO: Load graphics, music resources, etc...
 END SUB
 
 
-' - Ejecuta un módulo -------------------------------------
-' Parámetros:
-'   modulo (UByte): módulo a ejecutar
-SUB EjecutarModulo(modulo AS UByte)
-    ' Conmutamos a la página donde está el módulo
-    PaginarMemoria(modulo)
-    ' Copiamos del slot 3 ($c000) al 2 ($8000)
+' - Execute a module ----------------------------------------
+' Parameters:
+'   module (UByte): module to execute
+SUB ExecuteModule(module AS UByte)
+    ' Switch to the page where the module is located
+    SwitchMemoryBank(module)
+    ' Copy from slot 3 ($c000) to 2 ($8000)
     memcopy($c000,$8000,$4000)
-    ' Ejecutamos el módulo
+    ' Execute the module
     PRINT AT 0,0;USR $8000;
 END SUB
