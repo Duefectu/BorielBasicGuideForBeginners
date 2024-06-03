@@ -68,7 +68,7 @@ END SUB
 
 ' - Initialize System --------------------------------------
 SUB Initialize()
-    ' Set default colors
+    ' Set default colours
     BORDER 7
     PAPER 7
     INK 0

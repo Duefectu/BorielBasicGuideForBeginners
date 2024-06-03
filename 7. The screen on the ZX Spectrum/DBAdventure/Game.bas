@@ -248,7 +248,7 @@ SUB DrawScorePanel()
     ' Change attributes of score panel to yellow paper with black ink
     paint(1,18,30,5,%00110000)
 
-    ' Print the panel with GDUs and colors!!!
+    ' Print the panel with GDUs and colours!!!
     PAPER 7
     INK 0
     PRINT AT 18,1;"\A";

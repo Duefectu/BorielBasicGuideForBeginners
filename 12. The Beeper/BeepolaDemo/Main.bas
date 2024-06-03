@@ -27,7 +27,7 @@ END SUB
 
 ' - Demo intro ---------------------------------------------
 SUB Intro()
-    ' Adjust screen colors
+    ' Adjust screen colours
     BORDER 0
     PAPER 0
     INK 6

@@ -28,7 +28,7 @@ SUB DrawScreen(screen AS UByte)
             tile = Screens(screen, dir)   
             ' Print the sprite/tile
             PutChars(tx, ty, 2, 2, @Tiles_Castle(tile, 0))
-            ' Color the tile with the attributes
+            ' Colour the tile with the attributes
             PaintData(tx, ty, 2, 2, @Tiles_Castle_Attr(tile, 0))
             ' Next direction in the map
             dir = dir + 1

@@ -1,13 +1,13 @@
 ' - Next_Mouse --------------------------------------------
 ' - 16 x 16 pixels text -------------------------------
 
-' - Prints text with multicolor 16x16 fonts --
+' - Prints text with multicolour 16x16 fonts --
 ' Uses tiles located at address $c000
 ' Parameters:
 '   x (UByte): Cell x in 16-pixel resolution (0 to 15)
 '   y (UByte): Cell y in 16-pixel resolution (0 to 11)
 '   txt (String): Text to print (uppercase only)
-SUB PrintText16(x AS UByte, y AS UByte, txt AS String)
+Sub PrintText16(x AS UByte, y AS UByte, txt AS String)
     DIM n, c AS UByte
     DIM dir AS UInteger
     
@@ -44,16 +44,16 @@ SUB PrintText16(x AS UByte, y AS UByte, txt AS String)
         ' Increment x
         x = x + 1
     NEXT n
-END SUB
+END Sub
 
 
-' - Prints centered text with multicolor 16x16 font -
+' - Prints centered text with multicolour 16x16 font -
 '   y (UByte): Cell y in 16-pixel resolution (0 to 11)
 '   txt (String): Text to print (uppercase only)
-SUB PrintCentered16(y AS UByte, txt AS String)
+Sub PrintCentered16(y AS UByte, txt AS String)
     DIM x AS UByte
     ' Half of the screen (8) minus half of the text length
     x = 8 - (LEN(txt) / 2)
     ' Print the text
     PrintText16(x,y,txt) 
-END SUB
+END Sub

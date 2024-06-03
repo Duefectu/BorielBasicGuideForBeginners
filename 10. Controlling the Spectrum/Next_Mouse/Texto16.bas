@@ -1,13 +1,13 @@
 ' - Next_Mouse --------------------------------------------
 ' - Texto de 16 x 16 pixels -------------------------------
 
-' - Imprime un texto con las fuentes multicolor de 16x16 --
+' - Imprime un texto con las fuentes multicolour de 16x16 --
 ' Usa los tiles ubicados en la dirección $c000
 ' Parámetros:
 '   x (UByte): Celda x en resolución de 16 pixels (0 a 15)
 '   y (UByte): Celda y en resolución de 16 pixels (0 a 11)
 '   txt (String): Texto a imprimir (solo mayúsculas)
-SUB ImprimirTexto16(x AS UByte, y AS UByte, txt AS String)
+Sub ImprimirTexto16(x AS UByte, y AS UByte, txt AS String)
     DIM n, c AS UByte
     DIM dir AS UInteger
     
@@ -44,7 +44,7 @@ SUB ImprimirTexto16(x AS UByte, y AS UByte, txt AS String)
         ' Incrementa x
         x = x + 1
     NEXT n
-END SUB
+END Sub
 
 
 ' - Imprime un texto centrado con fuente multicolor 16x16 -

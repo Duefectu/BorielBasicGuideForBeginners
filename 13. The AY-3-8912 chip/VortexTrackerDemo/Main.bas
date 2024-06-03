@@ -84,8 +84,8 @@ SUB FireWork()
     DIM xi AS Integer
     ' Working coordinates
     DIM x, y, lx, ly AS Integer
-    ' Fire color
-    DIM i AS UByte
+    ' Fire colour
+    Dim i AS UByte
     ' Explosion counter
     DIM c AS UByte
     ' Angle and module 
@@ -96,7 +96,7 @@ SUB FireWork()
     xi = (RND * 128) + 50
     ' Module (height) of the firework
     m = (RND * 100) + 64
-    ' Fire color
+    ' Fire colour
     i = (RND * 7)+1
     ' Reset the rest
     a = 0

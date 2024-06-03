@@ -25,7 +25,7 @@ play:
 	push de
 	pop ix				;put it into ix
 
-	ld a,(23624)		;get border color from BASIC vars to keep it unchanged
+	ld a, (23624)		;get border colour from BASIC vars to keep it unchanged
 	rra
 	rra
 	rra
