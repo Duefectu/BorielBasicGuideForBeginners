@@ -62,22 +62,22 @@ SUB Game()
     FOR n = 0 TO 127
         RemoveSprite(n,0)
     NEXT n
-    
+
     ' Print "DEAD!!!"
-    PrintCentered16(2,"DEAD!!!")
-    ' Print "POINTS: 0" centered
-    PrintCentered16(4,"Score: " + STR(Score))
+    PrintCentred16(2, "DEAD!!!")
+    ' Print "POINTS: 0" centred
+    PrintCentred16(4, "Score: " + STR(Score))
     ' If we beat the record...
-    IF Score > Record THEN
+    If Score > Record THEN
         ' New record and text
         Record = Score
-        PrintCentered16(6,"NEW RECORD!")
-    ELSE
+        PrintCentred16(6, "NEW RECORD!")
+    Else
         ' Print current record
-        PrintCentered16(6,"RECORD: " + STR(Record))
-    END IF
+        PrintCentred16(6, "RECORD: " + STR(Record))
+    End If
     ' Wait for mouse click
-    PrintCentered16(8,"CLICK MOUSE!")       
+    PrintCentred16(8, "CLICK MOUSE!")
     PauseClick()
 END SUB
 

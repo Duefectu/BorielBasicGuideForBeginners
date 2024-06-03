@@ -47,13 +47,13 @@ Sub PrintText16(x AS UByte, y AS UByte, txt AS String)
 END Sub
 
 
-' - Prints centered text with multicolour 16x16 font -
+' - Prints centred text with multicolour 16x16 font -
 '   y (UByte): Cell y in 16-pixel resolution (0 to 11)
 '   txt (String): Text to print (uppercase only)
-Sub PrintCentered16(y AS UByte, txt AS String)
-    DIM x AS UByte
+Sub PrintCentred16(y As UByte, txt As String)
+    Dim x As UByte
     ' Half of the screen (8) minus half of the text length
     x = 8 - (LEN(txt) / 2)
     ' Print the text
-    PrintText16(x,y,txt) 
-END Sub
+    PrintText16(x, y, txt)
+End Sub

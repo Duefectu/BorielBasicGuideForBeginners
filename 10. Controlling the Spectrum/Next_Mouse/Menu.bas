@@ -8,12 +8,12 @@ SUB Menu()
     ' Clear Layer 2 screen
     CLS256(0)
 
-    ' Print "MOUSE DEMO!" centered at 16x16
-    PrintCentered16(1,"MOUSE DEMO!")
-    ' Print the record centered
-    PrintCentered16(4,"RECORD: " + STR(Record))
+    ' Print "MOUSE DEMO!" centred at 16x16
+    PrintCentred16(1, "MOUSE DEMO!")
+    ' Print the record centred
+    PrintCentred16(4, "RECORD: " + STR(Record))
     ' Wait for mouse click
-    PrintCentered16(8,"CLICK MOUSE!")
+    PrintCentred16(8, "CLICK MOUSE!")
     PauseClick()
     
     ' Seed random numbers to TIMER
