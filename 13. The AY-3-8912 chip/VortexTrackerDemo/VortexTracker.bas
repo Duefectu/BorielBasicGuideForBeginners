@@ -24,7 +24,8 @@ SUB VortexTracker_Initialize(usarIM2 AS UByte)
     
     ' If using interrupts...
     IF usarIM2 = 1 THEN
-        ' Initialize the interrupt engine to execute "VortexTracker_NextNote" at each interruption
+        ' Initialize the interrupt engine to execute 
+        ' "VortexTracker_NextNote" at each interrupt
         IM2_Initialize(@VortexTracker_NextNote)
     END IF
     

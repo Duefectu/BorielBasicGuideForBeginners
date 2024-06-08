@@ -19,11 +19,11 @@ STOP
 #DEFINE AY_DATA 49149
 ' AY-3-8912 chip registers
 #DEFINE AY_A_FINEPITCH 0
-#DEFINE AY_A_COURSEPITCH 1
+#DEFINE AY_A_COARSEPITCH 1
 #DEFINE AY_B_FINEPITCH 2
-#DEFINE AY_B_COURSEPITCH 3
+#DEFINE AY_B_COARSEPITCH 3
 #DEFINE AY_C_FINEPITCH 4
-#DEFINE AY_C_COURSEPITCH 5
+#DEFINE AY_C_COARSEPITCH 5
 #DEFINE AY_NOISEPITCH 6
 #DEFINE AY_MIXER 7
 #DEFINE AY_A_VOLUME 8
@@ -38,7 +38,7 @@ STOP
 
 ' - Variables ---------------------------------------------
 ' Musical notes frequencies
-DIM Music_Notes(59,1) AS UByte => { _
+Dim Music_Notes(59, 1) As UByte => { _
     { $06, $af }, _     ' C2   1711 0
     { $06, $4e }, _     ' C#2  1614 1
     { $05, $f4 }, _     ' D2   1524 2
@@ -105,30 +105,30 @@ _
     { $00, $39 } _      ' B6   57   59  
 }
 ' Piano keyboard keys
-DIM Keys(23) AS UInteger => { _
+Dim Keys(23) As UInteger => { _
     KEYZ, KEYS, KEYX, KEYD, KEYC, KEYV, _
     KEYG, KEYB, KEYH, KEYN, KEYJ, KEYM, _
     KEYQ, KEY2, KEYW, KEY3, KEYE, KEYR, _
     KEY5, KEYT, KEY6, KEYY, KEY7, KEYU _
 }
 ' Note names
-DIM notetion(12) AS String
+Dim notation(12) As String
 ' AY-3-8912 chip waveform types
-DIM waveTypes(8) AS String
+Dim waveTypes(8) As String
 ' AY-3-8912 chip waveform type identifiers
-DIM WaveIds(8) AS UByte => { 255,0,4,8,10,11,12,13,14 }
+Dim WaveIds(8) As UByte => {255, 0, 4, 8, 10, 11, 12, 13, 14}
 ' Current note and octave, and number of pressed keys
-DIM note, octave, numNotes AS UByte
+Dim note, octave, numNotes As UByte
 ' Volume, copy of volume, waveform, and instrument
-DIM volume, volume2, wave, type AS UByte
+Dim volume, volume2, wave, type As UByte
 ' Prevents key bounce
-DIM rOctave, rVolume, rWave, rFrequency, rType AS UByte
+Dim rOctave, rVolume, rWave, rFrequency, rType As UByte
 '   Volume has been modified
-DIM mVolume AS UByte
+Dim mVolume As UByte
 ' Up to three notes can be played simultaneously
-DIM notes(2) AS UByte
+Dim notes(2) As UByte
 ' Waveform oscillation frequency
-DIM frequency AS UInteger
+Dim frequency As UInteger
 
 
 ' - Additional Modules -----------------------------------
@@ -136,20 +136,20 @@ DIM frequency AS UInteger
 
 
 ' - Main Subroutine -----------------------------------
-SUB Main()
+Sub Main()
     ' Temporary variables
-    DIM n, m, o, f1, f2, fo1, fo2, channel AS UByte
-    
+    Dim n, m, o, f1, f2, fo1, fo2, channel As UByte
+
     ' Initialize the system
     Initialize()
-        
+
     ' Initialize the mixer
     AYReg(AY_MIXER,%00111000)
     ' Adjust channel volumes
-    AYReg(AY_A_VOLUME,15)   ' Maximum volume
-    AYReg(AY_B_VOLUME,15)   ' Maximum volume
-    AYReg(AY_C_VOLUME,15)   ' Maximum volume
-    
+    AYReg(AY_A_VOLUME, 15)   ' Maximum volume
+    AYReg(AY_B_VOLUME, 15)   ' Maximum volume
+    AYReg(AY_C_VOLUME, 15)   ' Maximum volume
+
     ' Initial octave minus 2
     octave = 0
     ' Initial volume
@@ -160,157 +160,157 @@ SUB Main()
     wave = 0
     ' Default frequency
     frequency = 10
-    
+
     ' Infinite loop
-    DO
+    Do
         ' Start with 0 keys/notes
         numNotes = 0
         ' Scan all possible keys
-        FOR n = 0 TO 23
+        For n = 0 To 23
             ' Key pressed...
-            IF Multikeys(Keys(n)) <> 0 THEN
+            If Multikeys(Keys(n)) <> 0 Then
                 ' Add the note to "notes"
                 notes(numNotes) = (octave * 12) + n
                 ' If we already have three notes...
-                IF numNotes = 3 THEN
+                If numNotes = 3 Then
                     ' Don't want more notes
-                    EXIT FOR
-                ' If we don't have three notes yet...
-                ELSE
+                    Exit For
+                    ' If we don't have three notes yet...
+                Else
                     ' Increment the note counter
                     numNotes = numNotes + 1
-                END IF
-            END IF
-        NEXT n
-        
+                End If
+            End If
+        Next n
+
         ' Control the upper options (octave, volume, waveform, etc...)
-        ControlKeyboard() 
-        
+        ControlKeyboard()
+
         ' If a waveform is defined...
-        IF wave <> 0 THEN
+        If wave <> 0 Then
             ' If the volume is not 16...
-            IF volume <> 16 THEN
+            If volume <> 16 Then
                 ' Make a copy of the current volume
                 volume2 = volume
                 ' Set the volume to 16
                 volume = 16
                 ' Mark volume as modified
                 mVolume = 1
-            END IF
-        END IF
+            End If
+        End If
 
         ' Update information on screen
         ' Current octave
-        PRINT AT 2,16;(octave + 2);
+        PRINT AT 2, 16;(octave + 2);
         ' If no waveform is selected...
-        IF wave = 0 THEN
+        If wave = 0 Then
             ' Display volume
-            PRINT AT 3,16;volume;" ";
+            PRINT AT 3, 16;volume;" ";
             ' Don't display waveform frequency
-            PRINT AT 5,16;"-    ";
+            PRINT AT 5, 16;"-    ";
         ' If a waveform is selected...
-        ELSE
+        Else
             ' Don't display volume
-            PRINT AT 3,16;"- ";
+            PRINT AT 3, 16;"- ";
             ' Display waveform frequency
-            PRINT AT 5,16;frequency;" ";
-        END IF
-        
+            PRINT AT 5, 16;frequency;" ";
+        End If
+
         ' Display the selected waveform type
-        PRINT AT 4,16;waveTypes(wave);
+        PRINT AT 4, 16;waveTypes(wave);
 
         ' Print the instrument type used 
-        IF type = 0 THEN
-            PRINT AT 6,16;"Tone ";
-        ELSEIF type = 1 THEN
-            PRINT AT 6,16;"Noise";
-        ELSE
-            PRINT AT 6,16;"T + N";
-        END IF
+        If type = 0 Then
+            PRINT AT 6, 16;"Tone ";
+        ElseIf type = 1 Then
+            PRINT AT 6, 16;"Noise";
+        Else
+            PRINT AT 6, 16;"T + N";
+        End If
 
         ' Volume has been modified or there's a waveform
-        IF mVolume <> 0 OR wave <> 0 THEN
+        If mVolume <> 0 Or wave <> 0 Then
             ' Adjust volume
-            AYReg(AY_A_VOLUME,volume)
-            AYReg(AY_B_VOLUME,volume)
-            AYReg(AY_C_VOLUME,volume)
+            AYReg(AY_A_VOLUME, volume)
+            AYReg(AY_B_VOLUME, volume)
+            AYReg(AY_C_VOLUME, volume)
             ' Reset volume modified flag
             mVolume = 0
             ' Adjust volume mixer
-            IF type = 0 THEN
+            If type = 0 Then
                 ' Tone only
                 AYReg(AY_MIXER,%00111000)
-            ELSEIF type = 1 THEN
+            ElseIf type = 1 Then
                 ' Noise only
                 AYReg(AY_MIXER,%00000111)
-            ELSE
+            Else
                 ' Tone + Noise
                 AYReg(AY_MIXER,%00111111)
-            END IF
-        END IF
-        
+            End If
+        End If
+
         ' Play notes --------------------------
         ' Up to three notes
-        FOR n = 1 TO 3
+        For n = 1 To 3
             ' Channel equals counter n - 1
-            channel = n - 1           
+            channel = n - 1
             ' If all notes have been played...
-            IF n>numNotes THEN
+            If n > numNotes Then
                 ' Print "-" on channel info
-                PRINT AT n+7,16;"-  ";
+                PRINT AT n+7, 16;"-  ";
                 ' Silence the channel with note 0
-                AYReg(AY_A_COURSEPITCH+(channel*2),0)
-                AYReg(AY_A_FINEPITCH+(channel*2),0) 
-            ' If there are still notes to play...
-            ELSE
+                AYReg(AY_A_COARSEPITCH + (channel * 2), 0)
+                AYReg(AY_A_FINEPITCH + (channel * 2), 0)
+                ' If there are still notes to play...
+            Else
                 ' Current note
                 note = notes(channel)
                 ' Get the note's frequency
-                f1 = Music_Notes(note,0)
-                f2 = Music_Notes(note,1)
+                f1 = Music_Notes(note, 0)
+                f2 = Music_Notes(note, 1)
                 ' Calculate the note's octave
-                o = INT(note/12)+2
+                o = INT(note / 12) + 2
                 ' Print the note and octave
-                PRINT AT n+7,16;notetion(note MOD 12);o;" "; 
+                PRINT AT n+7, 16;notation(note Mod 12);o;" "; 
 
                 ' Play the note
-                AYReg(AY_A_COURSEPITCH+(channel*2),f1)
-                AYReg(AY_A_FINEPITCH+(channel*2),f2)   
-                
+                AYReg(AY_A_COARSEPITCH + (channel * 2), f1)
+                AYReg(AY_A_FINEPITCH + (channel * 2), f2)
+
                 ' If the volume is 16, use waveform...
-                IF volume = 16 THEN
+                If volume = 16 Then
                     ' Program the waveform
-                    AYReg(AY_ENVELOPE_SHAPE,WaveIds(wave))
+                    AYReg(AY_ENVELOPE_SHAPE, WaveIds(wave))
                     ' High byte of frequency
-                    fo1= frequency >> 8
+                    fo1 = frequency >> 8
                     ' Low byte of frequency
-                    fo2= frequency bAND $00ff
+                    fo2 = frequency bAND $00Ff
                     ' Program the waveform's frequency
-                    AYReg(AY_ENVELOPE_COURSE,fo1)
-                    AYReg(AY_ENVELOPE_FINE,fo2)
-                END IF
-            END IF
-        NEXT n        
-    LOOP
-END SUB
+                    AYReg(AY_ENVELOPE_COURSE, fo1)
+                    AYReg(AY_ENVELOPE_FINE, fo2)
+                End If
+            End If
+        Next n
+    Loop
+End Sub
 
 
 ' - Initialize the system ---------------------------------
-SUB Initialize()
+Sub Initialize()
     ' Text for each note
-    notetion(0)="C"
-    notetion(1)="C#"
-    notetion(2)="D"
-    notetion(3)="D#"
-    notetion(4)="E"
-    notetion(5)="F"
-    notetion(6)="F#"
-    notetion(7)="G"
-    notetion(8)="G#"
-    notetion(9)="A"
-    notetion(10)="A#"
-    notetion(11)="B"
-    
+    notation(0) = "C"
+    notation(1) = "C#"
+    notation(2) = "D"
+    notation(3) = "D#"
+    notation(4) = "E"
+    notation(5) = "F"
+    notation(6) = "F#"
+    notation(7) = "G"
+    notation(8) = "G#"
+    notation(9) = "A"
+    notation(10) = "A#"
+    notation(11) = "B"
+
     ' Adjust GDUs to point to waves
     POKE (uinteger 23675, @Waves)
     

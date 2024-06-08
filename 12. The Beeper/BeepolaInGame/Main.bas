@@ -74,7 +74,7 @@ SUB Demo()
     NEXT n
     
     ' Print the ship for the first time
-    putChars(x,y,2,2,@Navecilla_Ship(f,0))
+    putChars(x,y,2,2,@Ship_Ship(f,0))
     PRINT AT 23,0;"Press M to toggle music";
     
     ' Infinite loop
@@ -139,14 +139,14 @@ SUB Demo()
             ye=Stars(n,STAR_Y)
             te=Stars(n,STAR_TYPE)
             ' Erase the star
-            putChars(xe,ye,1,1,@Navecilla_Star(1,0))
+            putChars(xe,ye,1,1,@Ship_Star(1,0))
             ' If the star is going to go out from the left...
             IF xe > te THEN
                 ' If not out, subtract type from x
                 xe = xe - te
                 Stars(n,STAR_X) = xe
                 ' Print the star
-                putChars(xe,ye,1,1,@Navecilla_Star(0,0))
+                putChars(xe,ye,1,1,@Ship_Star(0,0))
             ' If it's going out
             ELSE
                 ' Place the star to the right
@@ -158,9 +158,9 @@ SUB Demo()
         NEXT n
         
         ' Erase the ship
-        putChars(x,y,2,2,@Navecilla_Ship(3,0))
+        putChars(x,y,2,2,@Ship_Ship(3,0))
         ' Print it in the new position
-        putChars(x2,y2,2,2,@Navecilla_Ship(f,0))
+        putChars(x2,y2,2,2,@Ship_Ship(f,0))
         ' Update x and y with x2 and y2
         x = x2
         y = y2

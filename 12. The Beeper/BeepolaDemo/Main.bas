@@ -8,8 +8,8 @@ STOP
 ' - Includes ----------------------------------------------
 #INCLUDE <retrace.bas>      ' Library for waitretrace
 #INCLUDE <Keys.bas>         ' Library for MultiKeys
-#INCLUDE "Triptone.bas"     ' Triptone Motor
-#INCLUDE "TheMusicBox.bas"  ' The Music Box Motor
+#INCLUDE "Triptone.bas"     ' Triptone engine
+#INCLUDE "TheMusicBox.bas"  ' The Music Box engine
 
 
 ' - Main subroutine ----------------------------------------
@@ -44,7 +44,7 @@ END SUB
 
 ' - Demo menu ----------------------------------------------
 SUB Menu()
-    ' Initialize The Music Box motor
+    ' Initialize The Music Box engine
     TheMusicBox_Init()
     
     ' Print the menu
