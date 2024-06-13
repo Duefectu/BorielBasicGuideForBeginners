@@ -38,7 +38,7 @@ DIM Shots(DIS_MAX,3) AS UByte
 ' Boriel's libraries
 #INCLUDE <retrace.bas>
 ' Other libraries
-#INCLUDE "nextlib6.1.bas"
+#INCLUDE "NextLibLite.bas"
 #INCLUDE "KMouse.bas"
 #INCLUDE "Text16.bas"
 ' Resources
@@ -67,6 +67,9 @@ SUB Initialize()
     INK 6
     CLS
     
+    ' Initializes NextLibLite library
+    NextInit()
+
     ' Set clock to 28Mhz
     NextReg($07,3)
     ' Set priorities: Sprites -> ULA ->  Layer2
@@ -88,7 +91,4 @@ SUB Initialize()
     
     ' Define the default font for ULA
     POKE(UInteger 23606,@Glow-256)
-
-    ' Patch IY for emulator compatibility
-    PatchIY()
 END SUB

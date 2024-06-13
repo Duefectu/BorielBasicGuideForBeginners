@@ -1,4 +1,4 @@
-' - Next Scroll -------------------------------------
+' - Next Scroll -------------------------------------------
 ' http://tinyurl.com/224u55ph
 
 Main()
@@ -8,10 +8,10 @@ LOOP
 
 ' - Includes ----------------------------------------------
 #INCLUDE <retrace.bas>
-#INCLUDE "nextlib8.bas"
+#INCLUDE "NextLibLite.bas"
 
 
-' - Main subroutine -----------------------------------
+' - Main subroutine ---------------------------------------
 SUB Main()
     ' Initialize the system
     Initialize()
@@ -30,6 +30,9 @@ SUB Initialize()
     BRIGHT 1
     INK 6
     CLS
+    
+    ' Initializes NextLibLite
+    NextInit()
     
     ' Set the clock to 28MHz
     NextReg($07,3)
@@ -53,7 +56,7 @@ SUB Initialize()
 END SUB
 
 
-' - Layer 2 demo, 256x192 at 256 colours -------------
+' - Layer 2 demo, 256x192 at 256 colours ------------------
 SUB Layer2_256x192()
     DIM x, y as UInteger
     DIM t AS UByte
@@ -79,7 +82,7 @@ SUB Layer2_256x192()
 END SUB
 
 
-' - Sprite demo ---------------------------------------
+' - Sprite demo -------------------------------------------
 SUB SpriteDemo()
     DIM scrX AS UByte
     DIM pattern, n AS UByte

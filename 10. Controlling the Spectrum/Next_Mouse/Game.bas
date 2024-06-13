@@ -66,7 +66,7 @@ SUB Game()
     ' Print "DEAD!!!"
     PrintCentred16(2, "DEAD!!!")
     ' Print "POINTS: 0" centred
-    PrintCentred16(4, "Score: " + STR(Score))
+    PrintCentred16(4, "SCORE: " + STR(Score))
     ' If we beat the record...
     If Score > Record THEN
         ' New record and text

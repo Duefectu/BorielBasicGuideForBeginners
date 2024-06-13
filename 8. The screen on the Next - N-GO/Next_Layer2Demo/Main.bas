@@ -8,7 +8,7 @@ LOOP
 
 ' - Includes ----------------------------------------------
 #INCLUDE <retrace.bas>
-#INCLUDE "nextlib8.bas"
+#INCLUDE "NextLibLite.bas"
 
 
 ' - Main subroutine ----------------------------------------
@@ -31,6 +31,8 @@ SUB Initialize()
     INK 6
     CLS
 
+    ' Initializes NextLibLite library
+    NextInit()
     ' Set clock to 28Mhz
     NextReg($07, 3)
     ' Set priorities: Sprites -> ULA -> Layer2

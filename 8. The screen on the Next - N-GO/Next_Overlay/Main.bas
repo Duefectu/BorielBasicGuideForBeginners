@@ -18,7 +18,7 @@ LOOP
 
 ' - Includes ----------------------------------------------
 #INCLUDE <retrace.bas>
-#INCLUDE "nextlib8.bas"
+#INCLUDE "nextLibLite.bas"
 
 
 ' - Main subroutine -----------------------------------
@@ -38,6 +38,9 @@ SUB Initialize()
     INK 7
     CLS
     
+    ' Initializes NextLibLite library
+    NextInit()
+    
     ' Set the clock to 28MHz
     NextReg($07,3)
     ' Set priorities: Sprites -> Layer2 -> ULA
@@ -47,7 +50,7 @@ SUB Initialize()
     LoadSD("Dawn.scr",$4000,$1b00,0)
     
     ' Load the Layer 2 screen
-    LoadBMPOld("Mountains.bmp")
+    LoadBMP("Mountains.bmp")
 
     ' Show Layer 2
     ' It's important to activate Layer 2 after loading the screen
