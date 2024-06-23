@@ -1,10 +1,3 @@
-# BorielBasicGuideForDummies
-Boriel Basic for ZX Spectrum, a guide for dummies...and those who are not so much, book listings.
-
-**Work in progress**
-
-
-
 # BorielBasicManualForDummies
 Source code of the listings published in the book "Boriel Basic for ZX Spectrum - A Guide for Dummies...and Those Who Aren't So Much"
 
