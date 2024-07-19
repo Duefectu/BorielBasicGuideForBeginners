@@ -5,26 +5,26 @@
 
 ' Run main
 Main()
-STOP
+Stop
 
-warr
+
 ' - Double Buffer ------------------------------------------
 ' If we comment out this define, we deactivate the double 
 ' buffer
 #DEFINE DOUBLE_BUFFER
 
 #IFDEF DOUBLE_BUFFER
-    ' If using double buffer, include libraries
-    #INCLUDE <scrbuffer.bas>
-    #INCLUDE <memcopy.bas>    
-    ' Include double buffer management
-    #INCLUDE "DoubleBuffer.bas"
-#ENDIF
+' If using double buffer, include libraries
+#INCLUDE <scrbuffer.bas>
+#INCLUDE <memcopy.bas>    
+' Include double buffer management
+#INCLUDE "DoubleBuffer.bas"
+#End If
 
 
 ' - Global Variables ---------------------------------------
 ' Map position relative to the start of the screen
-DIM PosMap AS Integer
+Dim PosMap AS Integer
 ' Map subposition, tiles are 16x16, thus
 ' controlling when we are in an intermediate step
 DIM SubPosMap AS UByte
