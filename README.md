@@ -9,3 +9,9 @@ Patrons are entitled to the PDF and EPUB versions: https://www.patreon.com/Duefe
 In the "Releases" section, you can find the version of ZX Basic Studio with support for Next and the sprite editor: https://github.com/Duefectu/BorielBasicGuideForDummies/releases
 
 Thank you for your support!
+
+# Bug Fixes
+In this section, I will add any bugs or clarifications that arise. Thank you for reporting them.
+
+- Page 471: It not a bug, but..., in the list code "txt = INPUT$(2)", better use "txt = input(2)"
+- Page 245: In the list remove the "warr" line.
