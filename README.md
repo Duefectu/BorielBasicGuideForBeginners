@@ -6,7 +6,7 @@ The book can be purchased on Amazon in digital, hardcover, or paperback formats:
 Patrons are entitled to the PDF and EPUB versions: https://www.patreon.com/DuefectuCorp
 
 # ZX Basic Studio
-In the "Releases" section, you can find the version of ZX Basic Studio with support for Next and the sprite editor: https://github.com/Duefectu/BorielBasicGuideForDummies/releases
+In the "Releases" section, you can find the version of ZX Basic Studio with support for Next and the sprite editor: https://github.com/Duefectu/BorielBasicGuideForBeginners/releases
 
 Thank you for your support!
 
