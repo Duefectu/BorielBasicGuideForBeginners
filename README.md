@@ -1,7 +1,19 @@
 # Boriel Basic Manual For Beginners
 Source code of the listings published in the book "Boriel Basic for ZX Spectrum - A Guide for Beginners...and Those Who Aren't So Much"
 
-The book can be purchased on Amazon in digital, hardcover, or paperback formats: https://www.amazon.co.uk/dp/B0D7S9NYR3
+The book can be purchased on Amazon in digital, hardcover, or paperback formats:
+- US: [https://www.amazon.co.uk/dp/B0D7S9NYR3](https://www.amazon.com/dp/B0DBF4BHXY)
+- UK: https://www.amazon.co.uk/dp/B0DBF4BHXY
+- DE: https://www.amazon.de/dp/B0DBF4BHXY
+- FR: https://www.amazon.fr/dp/B0DBF4BHXY
+- ES: https://www.amazon.es/dp/B0DBF4BHXY
+- IT: https://www.amazon.it/dp/B0DBF4BHXY
+- NL: https://www.amazon.nl/dp/B0DBF4BHXY
+- PL: https://www.amazon.pl/dp/B0DBF4BHXY
+- SE: https://www.amazon.se/dp/B0DBF4BHXY
+- JP: https://www.amazon.co.jp/dp/B0DBF4BHXY
+- CA: https://www.amazon.ca/dp/B0DBF4BHXY
+- AU: https://www.amazon.com.au/dp/B0DBF4BHXY
 
 Patrons are entitled to the PDF and EPUB versions: https://www.patreon.com/DuefectuCorp
 
