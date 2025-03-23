@@ -12,6 +12,7 @@ Stop
 ' If we comment out this define, we deactivate the double 
 ' buffer
 #DEFINE DOUBLE_BUFFER
+#INCLUDE <retrace.bas>
 
 #IFDEF DOUBLE_BUFFER
 ' If using double buffer, include libraries
@@ -45,7 +46,6 @@ DIM Walking AS UByte
 #INCLUDE <putchars.bas>
 #INCLUDE <scroll.bas>
 #INCLUDE <winscroll.bas>
-#INCLUDE <retrace.bas>
 ' Graphics
 #INCLUDE "Ingrid.spr.bas"
 #INCLUDE "Tiles.spr.bas"
