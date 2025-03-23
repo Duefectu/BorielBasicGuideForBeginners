@@ -68,3 +68,4 @@ NEXT line
 - Page 245: In the list remove the "warr" line.
 - Page 471: It not a bug, but..., in the list code "txt = INPUT$(2)", better use "txt = input(2)"
 - Chapter 12. The Beeper: In this chapter it is erroneously reported that the center DO has the value of 12 for the tone, when in fact it should be 0, so in the examples of the BEEP command 12 units should be subtracted from the value of the tone.
+- DBAdventure listing: In the Main.bas file the line “#INCLUDE <retrace.bas>” should be moved to line 14. The listing has been updated: https://github.com/Duefectu/BorielBasicGuideForBeginners/blob/main/7.%20The%20screen%20on%20the%20ZX%20Spectrum/DBAdventure/Main.bas
