@@ -22,6 +22,14 @@ Download the latest version from the ZX Basic Studio GitHub: https://github.com/
 
 Thank you for your support!
 
+
+# Changes in New Compiler Versions
+Here I comment on the critical changes in the compiler that may cause some examples not to work.
+
+*Version 1.18.3 and later*
+- The addressing of arrays has changed. The @ prefix now returns the address of the variable itself, not of the data. Therefore, to refer to the first value of the array, you must use "@myArray(0)" instead of "@myArray".
+
+
 # Bug Fixes
 In this section, I will add any bugs or clarifications that arise. Thank you for reporting them.
 
