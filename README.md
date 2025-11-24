@@ -51,7 +51,7 @@ MyLoop:
 ' Jump here when closing the loop 
 EndOfLoop:
 ```
-- Page 104: The list uses the variable ‘paper’, which is a reserved word. “Paper” should be changed to ‘myPaper’, for example:
+- Page 106: The list uses the variable ‘paper’, which is a reserved word. “Paper” should be changed to ‘myPaper’, for example:
 ```Basic
 DIM line, column, myPaper AS UByte 
  
