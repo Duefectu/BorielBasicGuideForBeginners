@@ -51,5 +51,5 @@ END SUB
 ' Output:
 '   UByte: Bank in slot 3 according to BANKM (0-7)
 FUNCTION GetSlot3() AS UByte
-    RETURN PEEK $5b5c AND %111
+    RETURN PEEK $5b5c bAND %111
 END FUNCTION
