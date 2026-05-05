@@ -77,7 +77,7 @@ NEXT line
 ```Basic
 RETURN PEEK $5b5c bAND %111
 ```
-- Page 150: La primera imagen, que muestra el resultado en modo 128K tiene mal los valores de BANKM. Los valores correctos son estos:
+- Page 150: The first image, which shows the result in 128K mode, has incorrect BANKM values. The correct values are as follows:
 <img width="381" height="129" alt="Page150" src="https://github.com/user-attachments/assets/2894a6d4-7c11-49d0-995a-836226ca79c0" />
 - Page 245: In the list remove the "warr" line.
 - Page 471: It not a bug, but..., in the list code "txt = INPUT$(2)", better use "txt = input(2)"
