@@ -73,12 +73,14 @@ FOR line = 0 TO 23
     NEXT column 
 NEXT line
 ```
-- Page 245: In the list remove the "warr" line.
-- Page 471: It not a bug, but..., in the list code "txt = INPUT$(2)", better use "txt = input(2)"
-- Chapter 12. The Beeper: In this chapter it is erroneously reported that the center DO has the value of 12 for the tone, when in fact it should be 0, so in the examples of the BEEP command 12 units should be subtracted from the value of the tone.
-- DBAdventure listing: In the Main.bas file the line “#INCLUDE <retrace.bas>” should be moved to line 14. The listing has been updated: https://github.com/Duefectu/BorielBasicGuideForBeginners/blob/main/7.%20The%20screen%20on%20the%20ZX%20Spectrum/DBAdventure/Main.bas
 - Page 149: Line 54 of the list contains an error in the operand ‘AND’, which should be ‘bAND’. The line is now as follows:
 ```Basic
 RETURN PEEK $5b5c bAND %111
 ```
+- Page 150: La primera imagen, que muestra el resultado en modo 128K tiene mal los valores de BANKM. Los valores correctos son estos:
+<img width="381" height="129" alt="Page150" src="https://github.com/user-attachments/assets/2894a6d4-7c11-49d0-995a-836226ca79c0" />
+- Page 245: In the list remove the "warr" line.
+- Page 471: It not a bug, but..., in the list code "txt = INPUT$(2)", better use "txt = input(2)"
+- Chapter 12. The Beeper: In this chapter it is erroneously reported that the center DO has the value of 12 for the tone, when in fact it should be 0, so in the examples of the BEEP command 12 units should be subtracted from the value of the tone.
+- DBAdventure listing: In the Main.bas file the line “#INCLUDE <retrace.bas>” should be moved to line 14. The listing has been updated: https://github.com/Duefectu/BorielBasicGuideForBeginners/blob/main/7.%20The%20screen%20on%20the%20ZX%20Spectrum/DBAdventure/Main.bas
 
